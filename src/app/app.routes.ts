@@ -1,8 +1,22 @@
 import { Routes } from '@angular/router';
+import { OnboardingGuard } from './guards/onboarding.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    canActivate: [OnboardingGuard]
+  },
+  {
+    path: 'onboarding',
+    loadComponent: () => import('./pages/onboarding/onboarding.page').then( m => m.OnboardingPage)
+  },
+  {
+    path: 'measure-wizard',
+    loadComponent: () => import('./pages/measure-wizard/measure-wizard.page').then( m => m.MeasureWizardPage)
+  },
+  {
+    path: 'results',
+    loadComponent: () => import('./pages/results/results.page').then( m => m.ResultsPage)
   },
 ];

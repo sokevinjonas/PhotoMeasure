@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Résultats</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="sendFeedback()">Enregistrer</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- 3D Viewer Placeholder -->
+  <div style="height: 40vh; background: #333; display: flex; align-items: center; justify-content: center; position: relative;">
+    <p style="color: white; position: absolute; z-index: 10;" *ngIf="!result?.mesh_url">Modèle 3D indisponible</p>
+    <canvas #rendererCanvas style="width: 100%; height: 100%; display: block;"></canvas>
+  </div>
+
+  <div class="ion-padding">
+    <h2>Mesures Estimées</h2>
+    <p class="ion-text-muted">Tapotez une valeur pour la corriger.</p>
+
+    <ion-list>
+      <ion-item *ngFor="let item of measurementsList">
+        <ion-label>{{ item.key }}</ion-label>
+        <!-- Using ion-input here to allow direct editing -->
+        <ion-input slot="end" type="number" step="0.01" [(ngModel)]="item.value" [color]="item.value !== item.original ? 'success' : 'medium'" class="ion-text-end"></ion-input>
+        <ion-note slot="end" *ngIf="item.value !== item.original">(Modifié)</ion-note>
+        <span slot="end" style="margin-left: 5px;">m</span>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding-top ion-padding-bottom">
+      <ion-button expand="block" (click)="sendFeedback()">
+        Valider & Terminer
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

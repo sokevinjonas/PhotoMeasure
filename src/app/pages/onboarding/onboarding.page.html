@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Bienvenue</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="welcome-container">
+    <ion-icon name="body-outline" size="large" color="primary"></ion-icon>
+    <h1>PhotoMeasure</h1>
+    <p>Pour affiner notre IA et vous offrir les meilleures mesures, nous avons besoin de quelques infos.</p>
+  </div>
+
+  <ion-list lines="full">
+    <ion-item>
+      <ion-select label="Sexe" label-placement="floating" [(ngModel)]="profile.gender">
+        <ion-select-option value="male">Homme</ion-select-option>
+        <ion-select-option value="female">Femme</ion-select-option>
+        <ion-select-option value="neutral">Neutre</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Âge" type="number" label-placement="floating" placeholder="Ex: 30" [(ngModel)]="profile.age"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Poids (kg)" type="number" label-placement="floating" placeholder="Ex: 75" [(ngModel)]="profile.weight"></ion-input>
+    </ion-item>
+  </ion-list>
+  
+  <div class="ion-padding-top">
+    <ion-button expand="block" (click)="startApp()">Commencer</ion-button>
+  </div>
+</ion-content>

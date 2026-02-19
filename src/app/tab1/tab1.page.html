@@ -1,17 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Tableau de Bord
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="ion-padding" style="display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center;">
+    
+    <ion-button size="large" expand="block" (click)="startNewMeasurement()">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Nouvelle Mesure
+    </ion-button>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <div style="margin-top: 2rem; width: 100%;">
+      <h3>Récents</h3>
+      <ion-list>
+        <!-- Placeholder for recent measurements -->
+        <ion-item>
+          <ion-custom-label>Aucune mesure récente</ion-custom-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
 </ion-content>

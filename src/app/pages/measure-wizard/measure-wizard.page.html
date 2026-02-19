@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nouvelle Mesure</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <!-- Step 1: Details -->
+  <div *ngIf="currentStep === 1">
+    <h2>Informations</h2>
+    <p>Vérifiez votre taille pour une précision maximale.</p>
+    
+    <ion-item class="ion-margin-top">
+      <ion-input label="Taille (m)" type="number" step="0.01" placeholder="ex: 1.75" [(ngModel)]="height" label-placement="floating"></ion-input>
+    </ion-item>
+
+    <div class="ion-padding-top">
+      <ion-button expand="block" (click)="nextStep()" [disabled]="!height">Suivant</ion-button>
+    </div>
+  </div>
+
+  <!-- Step 2: Photos -->
+  <div *ngIf="currentStep === 2">
+    <h2>Photos</h2>
+    <p>Prenez deux photos : une de face et une de profil, bras légèrement écartés (A-pose).</p>
+
+    <ion-card (click)="takePhoto('front')">
+      <img [src]="frontPhotoWebPath || 'assets/placeholder-front.png'" style="height: 200px; width: 100%; object-fit: cover; background: #eee;" />
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Photo de Face</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card (click)="takePhoto('side')">
+      <img [src]="sidePhotoWebPath || 'assets/placeholder-side.png'" style="height: 200px; width: 100%; object-fit: cover; background: #eee;" />
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Photo de Profil</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <div class="ion-padding-top">
+      <ion-button expand="block" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">Calculer les mesures</span>
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>
