@@ -1,0 +1,112 @@
+
+:host {
+  --page-bg: #f8f9fa;
+}
+
+.privacy-page-content {
+  --background: var(--page-background);
+}
+
+.header-section {
+  text-align: center;
+  padding: 60px 20px 40px;
+  background: var(--page-background);
+
+  .icon-container {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: var(--box-shadow-card);
+    
+    ion-icon {
+      font-size: 3rem;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    color: var(--text-color-primary);
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-color-secondary);
+    margin: 0;
+  }
+}
+
+.content-container {
+  padding: 0 20px 40px;
+}
+
+.policy-card {
+  background: var(--card-background);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--box-shadow-card);
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    
+    ion-icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  .card-text {
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-color-primary);
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--text-color-secondary);
+    }
+  }
+}
+
+.info-box {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(var(--ion-color-medium-rgb), 0.1);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  ion-icon {
+    font-size: 2rem;
+    color: var(--ion-color-medium);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+  }
+}

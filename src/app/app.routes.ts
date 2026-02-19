@@ -27,4 +27,8 @@ export const routes: Routes = [
     path: 'premium',
     loadComponent: () => import('./pages/premium/premium.page').then( m => m.PremiumPage)
   },
+  {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy.page').then( m => m.PrivacyPage)
+  },
 ];

@@ -1,0 +1,68 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar color="transparent" style="position: absolute; top: 0; width: 100%; --background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab3" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="privacy-page-content">
+  
+  <div class="header-section">
+    <div class="icon-container">
+      <ion-icon name="shield-checkmark"></ion-icon>
+    </div>
+    <h1>Confidentialité</h1>
+    <p class="subtitle">Votre confiance est notre priorité</p>
+  </div>
+
+  <div class="content-container">
+    
+    <div class="policy-card">
+      <div class="card-icon" style="color: #4338ca; background: #e0e7ff;">
+        <ion-icon name="images-outline"></ion-icon>
+      </div>
+      <div class="card-text">
+        <h3>Collecte des Images</h3>
+        <p>
+          Les photos que vous prenez pour générer des mesures sont traitées de manière sécurisée.
+          En utilisant cette fonctionnalité, vous acceptez que ces images puissent être utilisées de manière 
+          <strong>anonyme</strong> pour entraîner et améliorer nos modèles d'intelligence artificielle.
+        </p>
+      </div>
+    </div>
+
+    <div class="policy-card">
+      <div class="card-icon" style="color: #059669; background: #d1fae5;">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+      </div>
+      <div class="card-text">
+        <h3>Données Personnelles</h3>
+        <p>
+          Vos informations personnelles telles que votre nom, votre numéro de téléphone et l'historique précis 
+          de vos mesures sont stockées <strong>localement sur votre appareil</strong>.
+          Nous ne vendons ni ne partageons ces données personnelles avec des tiers.
+        </p>
+      </div>
+    </div>
+
+    <div class="policy-card">
+      <div class="card-icon" style="color: #d97706; background: #fef3c7;">
+        <ion-icon name="server-outline"></ion-icon>
+      </div>
+      <div class="card-text">
+        <h3>Stockage & Sécurité</h3>
+        <p>
+          Nous utilisons des protocoles de sécurité standards pour protéger vos données lors des échanges avec nos serveurs de traitement.
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <ion-icon name="information-circle"></ion-icon>
+      <p>Pour toute question concernant vos données, contactez-nous via le support.</p>
+    </div>
+
+  </div>
+
+</ion-content>
