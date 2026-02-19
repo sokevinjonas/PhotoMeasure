@@ -24,6 +24,8 @@ export class MeasureWizardPage implements OnInit {
   currentStep = 1;
 
   // Step 1: Client Info
+  name: string = '';
+  phone: string = '';
   gender: 'male' | 'female' | 'neutral' = 'male';
   height: number | undefined;
   
@@ -62,10 +64,10 @@ export class MeasureWizardPage implements OnInit {
 
   nextStep() {
     if (this.currentStep === 1) {
-      if (this.height && this.gender) {
+      if (this.name && this.height && this.gender) {
         this.currentStep++;
       } else {
-        alert('Veuillez renseigner la taille et le sexe.');
+        alert('Veuillez renseigner le nom, la taille et le sexe.');
       }
     } else if (this.currentStep === 2) {
       if (this.selectedMeasures.length > 0) {
@@ -116,7 +118,7 @@ export class MeasureWizardPage implements OnInit {
   }
 
   async startEstimation() {
-    if (!this.frontPhoto || !this.sidePhoto || !this.height) return;
+    if (!this.frontPhoto || !this.sidePhoto || !this.height || !this.name) return;
 
     this.isLoading = true;
     
@@ -138,6 +140,8 @@ export class MeasureWizardPage implements OnInit {
           const resultData = {
             ...response,
             userProfile: { 
+              name: this.name,
+              phone: this.phone,
               gender: this.gender,
               height: this.height
             }

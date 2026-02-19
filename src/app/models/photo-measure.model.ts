@@ -1,6 +1,8 @@
 export type Gender = 'male' | 'female' | 'neutral';
 
 export interface UserProfile {
+  name: string;
+  phone?: string;
   age?: number;
   weight?: number; // in kg
   gender: Gender;

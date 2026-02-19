@@ -39,14 +39,9 @@ export class Tab2Page implements ViewDidEnter {
   }
 
   goToDetails(measurement: MeasurementRecord) {
-    this.router.navigate(['/results'], { 
+    this.router.navigate(['/client-details'], { 
       state: { 
-        data: {
-          prediction_id: measurement.id,
-          measurements: measurement.measurements,
-          mesh_url: measurement.mesh_url,
-          metadata: { mode: 'history' }
-        }
+        data: measurement
       } 
     });
   }

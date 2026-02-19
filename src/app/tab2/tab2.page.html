@@ -20,11 +20,12 @@
           </div>
           
           <ion-label>
-            <h2>Client #{{ m.id.substring(0,6) }}</h2>
+            <h2>{{ m.userProfile?.name || 'Client #' + m.id.substring(0,6) }}</h2>
             <p class="date">{{ m.date | date:'dd MMM yyyy' }} à {{ m.date | date:'HH:mm' }}</p>
             <div class="meta-tags">
               <span class="tag">{{ m.userProfile?.height }}m</span>
               <span class="tag">{{ m.userProfile?.gender === 'female' ? 'Femme' : 'Homme' }}</span>
+              <span class="tag" *ngIf="m.userProfile?.phone">{{ m.userProfile?.phone }}</span>
             </div>
           </ion-label>
           

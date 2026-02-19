@@ -37,7 +37,17 @@
       <!-- Inputs Grid -->
       <div class="inputs-grid">
         <div class="input-group">
-          <label>Taille (m)</label>
+          <label>Nom du client <span class="required">*</span></label>
+          <ion-input type="text" placeholder="Ex: Jean Dupont" [(ngModel)]="name" class="custom-input"></ion-input>
+        </div>
+
+        <div class="input-group">
+          <label>Téléphone <span class="optional">(optionnel)</span></label>
+          <ion-input type="tel" placeholder="Ex: 01 23 45 67 89" [(ngModel)]="phone" class="custom-input"></ion-input>
+        </div>
+
+        <div class="input-group">
+          <label>Taille (m) <span class="required">*</span></label>
           <ion-input type="number" step="0.01" placeholder="1.75" [(ngModel)]="height" class="custom-input"></ion-input>
         </div>
       </div>
