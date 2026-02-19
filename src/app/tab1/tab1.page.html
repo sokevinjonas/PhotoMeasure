@@ -1,16 +1,8 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="transparent">
-    <ion-title mode="ios" class="ion-text-start">
-      <div class="header-title">
-        <small>Bienvenue,</small><br>
-        <strong>PhotoMeasure</strong>
-      </div>
+  <ion-toolbar color="transparent" class="home-toolbar">
+    <ion-title class="ion-text-start">
+      <h1 class="app-title">PhotoMeasure</h1>
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button shape="round" color="dark">
-        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -23,42 +15,26 @@
       <ion-ripple-effect></ion-ripple-effect>
       <div class="hero-content" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <h2>Nouvel Scan</h2>
+          <h2>Nouveau Scan</h2>
           <p>Scanner un client</p>
         </div>
         <div class="action-btn">
-          <ion-icon name="scan-circle" style="font-size: 3.5rem; color: rgba(255,255,255,0.9);"></ion-icon>
+          <ion-icon name="camera-outline" style="font-size: 3rem; color: white;"></ion-icon>
         </div>
       </div>
-      <div class="hero-bg-icon">
-        <ion-icon name="scan-outline"></ion-icon>
-      </div>
     </div>
 
-    <!-- Quick Stats Row (Dynamic) -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <h3>{{ totalStats }}</h3>
-        <p>Mesures</p>
-      </div>
-      <!-- Placeholder for future stats -->
-      <div class="stat-card" style="opacity: 0.5;">
-        <h3>--</h3>
-        <p>Semaine</p>
-      </div>
-    </div>
-
-    <!-- Recent Section -->
-    <div class="section-header">
-      <h3>Récent</h3>
-      <ion-button fill="clear" size="small" routerLink="/tabs/tab2">Voir tout</ion-button>
+    <!-- Recent Section Header -->
+    <div class="section-header" style="margin-top: 30px;">
+      <h3>Dernier Ajout</h3>
+      <ion-button fill="clear" size="small" routerLink="/tabs/tab2">Voir liste</ion-button>
     </div>
 
     <!-- Dynamic Last Measurement Card -->
     <div class="recent-card ion-activatable ripple-parent" *ngIf="lastMeasurement" (click)="goToDetails(lastMeasurement)">
       <ion-ripple-effect></ion-ripple-effect>
       <div class="card-icon">
-        <ion-icon name="scan-circle"></ion-icon>
+        <ion-icon name="person-outline"></ion-icon>
       </div>
       <div class="card-content">
         <h3>{{ lastMeasurement.date | date:'dd MMM yyyy' }}</h3>
@@ -72,7 +48,7 @@
 
     <!-- Empty State -->
     <div class="empty-state" *ngIf="!lastMeasurement">
-      <p>Aucune mesure récente.</p>
+      <p>Aucun client enregistré.</p>
     </div>
 
   </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonicModule, ViewDidEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, scanCircle, scanOutline, camera, chevronForward } from 'ionicons/icons';
+import { cameraOutline, personOutline, chevronForward } from 'ionicons/icons';
 import { StorageService } from '../services/storage.service';
 import { MeasurementRecord } from '../models/photo-measure.model';
 
@@ -23,7 +23,7 @@ export class Tab1Page implements ViewDidEnter {
     private router: Router,
     private storage: StorageService
   ) {
-    addIcons({ notificationsOutline, scanCircle, scanOutline, camera, chevronForward });
+    addIcons({ cameraOutline, personOutline, chevronForward });
   }
 
   ionViewDidEnter() {

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { finalize } from 'rxjs/operators';
 import { addIcons } from 'ionicons';
-import { manOutline, womanOutline, arrowForward, bodyOutline, accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, ellipseOutline } from 'ionicons/icons';
+import { manOutline, womanOutline, arrowForward, arrowBack, bodyOutline, accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, ellipseOutline } from 'ionicons/icons';
 import { camera } from 'ionicons/icons';
 
 @Component({
@@ -52,7 +52,7 @@ export class MeasureWizardPage implements OnInit {
     private router: Router
   ) { 
     addIcons({ 
-      manOutline, womanOutline, arrowForward, 
+      manOutline, womanOutline, arrowForward, arrowBack, 
       bodyOutline, accessibilityOutline, addCircle,
       lockClosedOutline, checkmarkCircle, ellipseOutline
     });
