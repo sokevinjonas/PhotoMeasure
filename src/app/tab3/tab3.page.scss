@@ -1,6 +1,162 @@
 
 :host {
-  --ion-background-color: #f6f8fc;
+  --ion-background-color: var(--page-background);
+}
+
+.settings-container {
+  padding-bottom: 40px;
+}
+
+.premium-section {
+  padding: 16px 16px 8px 16px;
+}
+
+.premium-card {
+  background: var(--premium-gradient-dark);
+  border-radius: 20px;
+  padding: 24px;
+  color: white;
+  box-shadow: var(--box-shadow-floating);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(30%, -30%);
+    border-radius: 50%;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.active {
+    background: var(--premium-gradient-emerald);
+  }
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .icon-circle {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(5px);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--premium-gold);
+  }
+
+  .text-content {
+    flex: 1;
+    
+    h3 {
+      margin: 0 0 6px 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      font-weight: 400;
+    }
+  }
+
+  .action-arrow {
+    background: rgba(255,255,255,0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .check-mark {
+    color: #a7f3d0;
+    font-size: 1.8rem;
+  }
+}
+
+.icon-slot {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-right: 12px;
+}
+
+/* Privacy Modal Styles */
+.privacy-content {
+  text-align: center;
+  padding-top: 20px;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: var(--text-color-primary);
+  }
+
+  .policy-section {
+    background: var(--card-background);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: var(--box-shadow-card);
+
+    .section-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--page-background);
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--ion-color-primary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Consider variable if reused */
+    }
+
+    h3 {
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      font-size: 1.1rem;
+      color: var(--text-color-primary);
+    }
+
+    p {
+      color: var(--text-color-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
 }
 
 .settings-container {

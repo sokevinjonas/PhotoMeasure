@@ -35,6 +35,17 @@ export class StorageService {
     localStorage.removeItem(this.KEY_USER_PROFILE);
   }
 
+  // --- Theme Preference ---
+  private readonly KEY_DARK_MODE = 'photo_measure_dark_mode';
+
+  isDarkMode(): boolean {
+    return localStorage.getItem(this.KEY_DARK_MODE) === 'true';
+  }
+
+  setDarkMode(status: boolean): void {
+    localStorage.setItem(this.KEY_DARK_MODE, String(status));
+  }
+
   // --- Measurement History ---
 
   getMeasurements(): MeasurementRecord[] {

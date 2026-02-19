@@ -1,6 +1,144 @@
 
 :host {
-  --page-bg: #f8f9fa;
+  --page-bg: var(--page-background);
+}
+
+.page-content {
+  --background: var(--page-bg);
+}
+
+.header-toolbar {
+  --background: var(--page-bg);
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--text-color-primary);
+}
+
+.content-container {
+  padding: 20px;
+}
+
+/* Client Header Card */
+.client-header-card {
+  background: var(--card-background);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--box-shadow-card);
+  margin-bottom: 30px;
+
+  .avatar-large {
+    width: 70px;
+    height: 70px;
+    background: var(--gender-male-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gender-male-color);
+    font-size: 2.5rem;
+
+    &.female {
+      background: var(--gender-female-bg);
+      color: var(--gender-female-color);
+    }
+  }
+
+  .client-info {
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-color-primary);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+        
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color-primary);
+  }
+
+  .badge {
+    background: var(--ion-color-light);
+    color: var(--ion-color-medium);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}
+
+.measurements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 15px;
+  padding-bottom: 40px;
+}
+
+.measure-card {
+  background: var(--card-background);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .label {
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .value-container {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    .value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-color-primary);
+    }
+
+    .unit {
+      font-size: 0.8rem;
+      color: var(--text-color-secondary);
+      font-weight: 500;
+    }
+  }
 }
 
 .page-content {

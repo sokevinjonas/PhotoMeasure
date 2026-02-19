@@ -53,7 +53,7 @@
           <ion-icon name="moon-outline"></ion-icon>
         </div>
         <ion-label>Mode Sombre</ion-label>
-        <ion-toggle [(ngModel)]="darkMode" slot="end"></ion-toggle>
+        <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()" slot="end"></ion-toggle>
       </ion-item>
     </ion-list>
 

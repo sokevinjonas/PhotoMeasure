@@ -35,3 +35,22 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 // @import '@ionic/angular/css/palettes/dark.system.css';
+
+/* Custom Global Styles */
+
+/* Ensure text is readable on dark backgrounds */
+body {
+  --ion-text-color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --ion-text-color: #ffffff;
+    --ion-background-color: #121212;
+  }
+}
+
+/* Global utility classes if needed */
+.ion-text-bold {
+  font-weight: bold;
+}

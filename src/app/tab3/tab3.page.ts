@@ -54,6 +54,17 @@ export class Tab3Page {
 
   ionViewWillEnter() {
     this.isPremium = this.storage.isPremium();
+    this.darkMode = this.storage.isDarkMode();
+    this.updateTheme();
+  }
+
+  toggleDarkMode() {
+    this.storage.setDarkMode(this.darkMode);
+    this.updateTheme();
+  }
+
+  private updateTheme() {
+    document.body.classList.toggle('dark', this.darkMode);
   }
 
   getLanguageName(code: string): string {
