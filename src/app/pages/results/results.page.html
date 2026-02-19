@@ -1,37 +1,72 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Résultats</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="transparent">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1" color="dark" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Analyse 3D</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="sendFeedback()">Enregistrer</ion-button>
+      <ion-button (click)="sendFeedback()" color="primary" fill="clear" style="font-weight: 600;">
+        Sauvegarder
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  
-  <!-- 3D Viewer Placeholder -->
-  <div style="height: 40vh; background: #333; display: flex; align-items: center; justify-content: center; position: relative;">
-    <p style="color: white; position: absolute; z-index: 10;" *ngIf="!result?.mesh_url">Modèle 3D indisponible</p>
-    <canvas #rendererCanvas style="width: 100%; height: 100%; display: block;"></canvas>
+<ion-content [fullscreen]="true" class="results-content">
+
+  <!-- 3D Viewer Section (Hero) -->
+  <div class="viewer-container">
+    <canvas #rendererCanvas class="webgl-canvas"></canvas>
+    
+    <div class="viewer-controls">
+      <div class="control-badge">
+        <ion-icon name="cube-outline"></ion-icon>
+        <span>Modèle généré</span>
+      </div>
+      <div class="mesh-warning" *ngIf="!result?.mesh_url">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>Visualisation indisponible</span>
+      </div>
+    </div>
   </div>
 
-  <div class="ion-padding">
-    <h2>Mesures Estimées</h2>
-    <p class="ion-text-muted">Tapotez une valeur pour la corriger.</p>
+  <!-- Measurements Section -->
+  <div class="measurements-sheet">
+    <div class="sheet-handle"></div>
+    
+    <div class="section-header">
+      <h2>Mesures</h2>
+      <span class="count">{{ measurementsList.length }} détectées</span>
+    </div>
+    
+    <p class="instruction">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      Vérifiez et ajustez si nécessaire.
+    </p>
 
-    <ion-list>
-      <ion-item *ngFor="let item of measurementsList">
-        <ion-label>{{ item.key }}</ion-label>
-        <!-- Using ion-input here to allow direct editing -->
-        <ion-input slot="end" type="number" step="0.01" [(ngModel)]="item.value" [color]="item.value !== item.original ? 'success' : 'medium'" class="ion-text-end"></ion-input>
-        <ion-note slot="end" *ngIf="item.value !== item.original">(Modifié)</ion-note>
-        <span slot="end" style="margin-left: 5px;">m</span>
-      </ion-item>
-    </ion-list>
+    <div class="measurements-grid">
+      <div class="measure-card" *ngFor="let item of measurementsList" [class.modified]="item.value !== item.original">
+        <div class="measure-info">
+          <span class="label">{{ item.key }}</span>
+          <span class="status" *ngIf="item.value !== item.original">Modifié</span>
+        </div>
+        
+        <div class="measure-input-wrapper">
+          <ion-input 
+            type="number" 
+            step="0.01" 
+            [(ngModel)]="item.value" 
+            class="measure-input"
+          ></ion-input>
+          <span class="unit">cm</span>
+        </div>
+      </div>
+    </div>
 
-    <div class="ion-padding-top ion-padding-bottom">
-      <ion-button expand="block" (click)="sendFeedback()">
-        Valider & Terminer
+    <div class="actions-footer">
+      <ion-button expand="block" shape="round" size="large" (click)="sendFeedback()">
+        Valider les mesures
+        <ion-icon slot="end" name="checkmark-done-outline"></ion-icon>
       </ion-button>
     </div>
   </div>

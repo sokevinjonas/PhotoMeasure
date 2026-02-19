@@ -1,53 +1,131 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="transparent">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+      <ion-button (click)="previousStep()" color="dark">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Nouvelle Mesure</ion-title>
+    <!-- Progress: 1/3 ~ 0.33, 2/3 ~ 0.66, 3/3 ~ 1.0 -->
+    <ion-progress-bar [value]="currentStep / 3" color="primary"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="wizard-content">
   
-  <!-- Step 1: Details -->
-  <div *ngIf="currentStep === 1">
-    <h2>Informations</h2>
-    <p>Vérifiez votre taille pour une précision maximale.</p>
+  <div class="wizard-container">
     
-    <ion-item class="ion-margin-top">
-      <ion-input label="Taille (m)" type="number" step="0.01" placeholder="ex: 1.75" [(ngModel)]="height" label-placement="floating"></ion-input>
-    </ion-item>
+    <!-- Step 1: Details (No Age/Weight) -->
+    <div *ngIf="currentStep === 1" class="fade-in">
+      <div class="step-header">
+        <h2>Informations Client</h2>
+        <p>Sexe et taille</p>
+      </div>
 
-    <div class="ion-padding-top">
-      <ion-button expand="block" (click)="nextStep()" [disabled]="!height">Suivant</ion-button>
+      <!-- Gender Selector -->
+      <div class="gender-selector">
+        <div class="gender-card" [class.selected]="gender === 'male'" (click)="gender = 'male'">
+          <ion-icon name="man-outline"></ion-icon>
+          <span>Homme</span>
+        </div>
+        <div class="gender-card" [class.selected]="gender === 'female'" (click)="gender = 'female'">
+          <ion-icon name="woman-outline"></ion-icon>
+          <span>Femme</span>
+        </div>
+      </div>
+
+      <!-- Inputs Grid -->
+      <div class="inputs-grid">
+        <div class="input-group">
+          <label>Taille (m)</label>
+          <ion-input type="number" step="0.01" placeholder="1.75" [(ngModel)]="height" class="custom-input"></ion-input>
+        </div>
+      </div>
+
+      <div class="footer-action">
+        <ion-button expand="block" shape="round" size="large" (click)="nextStep()" [disabled]="!height">
+          Suivant
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
     </div>
-  </div>
 
-  <!-- Step 2: Photos -->
-  <div *ngIf="currentStep === 2">
-    <h2>Photos</h2>
-    <p>Prenez deux photos : une de face et une de profil, bras légèrement écartés (A-pose).</p>
+    <!-- Step 2: Measurement Selection -->
+    <div *ngIf="currentStep === 2" class="fade-in">
+      <div class="step-header">
+        <h2>Mesures souhaitées</h2>
+        <p>Sélectionnez les mesures à extraire</p>
+      </div>
 
-    <ion-card (click)="takePhoto('front')">
-      <img [src]="frontPhotoWebPath || 'assets/placeholder-front.png'" style="height: 200px; width: 100%; object-fit: cover; background: #eee;" />
-      <ion-card-header>
-        <ion-card-title class="ion-text-center">Photo de Face</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+      <div class="measures-selection">
+        <ion-item lines="none" class="select-all-item">
+          <ion-label>Tout sélectionner</ion-label>
+          <ion-checkbox slot="end" [checked]="selectedMeasures.length === availableMeasures.length" (ionChange)="toggleAll($event)"></ion-checkbox>
+        </ion-item>
 
-    <ion-card (click)="takePhoto('side')">
-      <img [src]="sidePhotoWebPath || 'assets/placeholder-side.png'" style="height: 200px; width: 100%; object-fit: cover; background: #eee;" />
-      <ion-card-header>
-        <ion-card-title class="ion-text-center">Photo de Profil</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+        <div class="measures-grid">
+          <div 
+            class="measure-chip" 
+            *ngFor="let m of availableMeasures" 
+            [class.selected]="selectedMeasures.includes(m)"
+            (click)="toggleMeasure(m)"
+          >
+            <ion-icon [name]="selectedMeasures.includes(m) ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
+            <span>{{ m }}</span>
+          </div>
+        </div>
+      </div>
 
-    <div class="ion-padding-top">
-      <ion-button expand="block" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading">
-        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-        <span *ngIf="!isLoading">Calculer les mesures</span>
-      </ion-button>
+      <div class="footer-action">
+        <ion-button expand="block" shape="round" size="large" (click)="nextStep()" [disabled]="selectedMeasures.length === 0">
+          Suivant
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+        <p class="count-info">{{ selectedMeasures.length }} mesures sélectionnées</p>
+      </div>
     </div>
+
+    <!-- Step 3: Photos -->
+    <div *ngIf="currentStep === 3" class="fade-in">
+      <div class="step-header">
+        <h2>Capture 3D</h2>
+        <p>Portez des vêtements près du corps.</p>
+      </div>
+
+      <div class="photos-container">
+        <!-- Front Photo -->
+        <div class="photo-card" (click)="takePhoto('front')" [class.has-photo]="!!frontPhotoWebPath">
+           <img *ngIf="frontPhotoWebPath" [src]="frontPhotoWebPath" class="photo-preview" />
+           <div class="photo-placeholder" *ngIf="!frontPhotoWebPath">
+             <ion-icon name="body-outline"></ion-icon>
+             <span>Face</span>
+             <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
+           </div>
+        </div>
+
+        <!-- Side Photo -->
+        <div class="photo-card" (click)="takePhoto('side')" [class.has-photo]="!!sidePhotoWebPath">
+          <img *ngIf="sidePhotoWebPath" [src]="sidePhotoWebPath" class="photo-preview" />
+          <div class="photo-placeholder" *ngIf="!sidePhotoWebPath">
+            <ion-icon name="accessibility-outline"></ion-icon>
+            <span>Profil</span>
+            <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
+          </div>
+       </div>
+      </div>
+
+      <div class="footer-action">
+        <ion-button expand="block" shape="round" size="large" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading">
+          <span *ngIf="!isLoading">Lancer l'analyse</span>
+          <ion-spinner *ngIf="isLoading"></ion-spinner>
+        </ion-button>
+        <div class="secure-note">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <small>Photos cryptées et sécurisées</small>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </ion-content>

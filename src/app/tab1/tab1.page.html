@@ -1,28 +1,96 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tableau de Bord
+<ion-header class="ion-no-border">
+  <ion-toolbar color="transparent">
+    <ion-title mode="ios" class="ion-text-start">
+      <div class="header-title">
+        <small>Bienvenue,</small><br>
+        <strong>PhotoMeasure</strong>
+      </div>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button shape="round" color="dark">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="ion-padding" style="display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center;">
+<ion-content [fullscreen]="true" class="dashboard-content">
+  
+  <div class="ion-padding">
     
-    <ion-button size="large" expand="block" (click)="startNewMeasurement()">
-      <ion-icon slot="start" name="camera"></ion-icon>
-      Nouvelle Mesure
-    </ion-button>
-
-    <div style="margin-top: 2rem; width: 100%;">
-      <h3>Récents</h3>
-      <ion-list>
-        <!-- Placeholder for recent measurements -->
-        <ion-item>
-          <ion-custom-label>Aucune mesure récente</ion-custom-label>
-        </ion-item>
-      </ion-list>
+    <!-- Hero Action Card -->
+    <div class="hero-card ion-activatable ripple-parent" (click)="startNewMeasurement()">
+      <ion-ripple-effect></ion-ripple-effect>
+      <div class="hero-content" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h2>Nouvel Scan</h2>
+          <p>Scanner un client</p>
+        </div>
+        <div class="action-btn">
+          <ion-icon name="scan-circle" style="font-size: 3.5rem; color: rgba(255,255,255,0.9);"></ion-icon>
+        </div>
+      </div>
+      <div class="hero-bg-icon">
+        <ion-icon name="scan-outline"></ion-icon>
+      </div>
     </div>
+
+    <!-- Quick Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <h3>12</h3>
+        <p>Clients</p>
+      </div>
+      <div class="stat-card">
+        <h3>5</h3>
+        <p>Cette semaine</p>
+      </div>
+    </div>
+
+    <!-- Recent Section -->
+    <div class="section-header">
+      <h3>Récent</h3>
+      <ion-button fill="clear" size="small">Voir tout</ion-button>
+    </div>
+
+    <ion-list lines="none" class="recent-list">
+      
+      <!-- Mock Item 1 -->
+      <ion-item class="recent-item">
+        <div slot="start" class="avatar-placeholder bg-blue">
+          JL
+        </div>
+        <ion-label>
+          <h2>Jean Luc</h2>
+          <p>Il y a 2 heures</p>
+        </ion-label>
+        <ion-note slot="end" color="medium">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-note>
+      </ion-item>
+
+      <!-- Mock Item 2 -->
+      <ion-item class="recent-item">
+        <div slot="start" class="avatar-placeholder bg-green">
+          MA
+        </div>
+        <ion-label>
+          <h2>Marie Anne</h2>
+          <p>Hier</p>
+        </ion-label>
+        <ion-note slot="end" color="medium">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-note>
+      </ion-item>
+
+      <!-- Empty State (Conditional) -->
+      <!-- 
+      <div class="empty-state">
+        <p>Aucune mesure pour le moment.</p>
+      </div> 
+      -->
+
+    </ion-list>
 
   </div>
 </ion-content>

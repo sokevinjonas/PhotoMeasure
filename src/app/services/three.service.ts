@@ -25,29 +25,43 @@ export class ThreeService implements OnDestroy {
 
   initialize(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+
+    console.log(`ThreeService init. Canvas size: ${width}x${height}`);
+
+    if (width === 0 || height === 0) {
+      console.warn('Canvas has 0 dimensions! Renderer might be invisible.');
+    }
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       alpha: true,    // transparent background
       antialias: true // smooth edges
     });
-    this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    this.renderer.setSize(width, height);
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x333333); // Dark background
+    this.scene.background = new THREE.Color(0x222222); // Slightly darker
 
     // Camera setup
     const aspectRatio = canvas.clientWidth / canvas.clientHeight;
-    this.camera = new THREE.PerspectiveCamera(45, aspectRatio, 0.1, 100);
-    this.camera.position.z = 2.5;
-    this.camera.position.y = 1;
+    this.camera = new THREE.PerspectiveCamera(50, aspectRatio, 0.1, 1000); // Increased far plane
+    this.camera.position.z = 4; // Moved back a bit
+    this.camera.position.y = 0; // Centered vertically
 
     // Light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     this.scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(0, 1, 2);
+    directionalLight.position.set(1, 1, 2); // Better angle
     this.scene.add(directionalLight);
+    
+    // Back light to see outline
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    backLight.position.set(-1, 0, -2);
+    this.scene.add(backLight);
 
     // Controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -59,12 +73,33 @@ export class ThreeService implements OnDestroy {
   }
 
   loadMesh(url: string) {
+    console.log('Loading mesh from:', url);
     const loader = new OBJLoader();
     loader.load(url, (object) => {
-      // Center the mesh
+      console.log('Mesh loaded successfully', object);
+      
+      this.scene.add(object);
+
+      // Compute bounding box
       const box = new THREE.Box3().setFromObject(object);
+      const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      object.position.sub(center); // Center at (0,0,0)
+
+      console.log('Mesh size:', size);
+      console.log('Mesh center before reset:', center);
+
+      // Center the object
+      object.position.x += (object.position.x - center.x);
+      object.position.y += (object.position.y - center.y);
+      object.position.z += (object.position.z - center.z);
+
+      // Auto-scale to fit in view (target height ~2 units)
+      const maxDim = Math.max(size.x, size.y, size.z);
+      if (maxDim > 0) {
+        const scale = 2 / maxDim;
+        object.scale.set(scale, scale, scale);
+        console.log('Auto-scaling applied:', scale);
+      }
 
       // Add material
       object.traverse((child) => {
@@ -72,13 +107,15 @@ export class ThreeService implements OnDestroy {
           (child as THREE.Mesh).material = new THREE.MeshStandardMaterial({
             color: 0x00ff7f, // Spring Green
             roughness: 0.5,
-            metalness: 0.1
+            metalness: 0.1,
+            side: THREE.DoubleSide // Ensure visible from inside if needed
           });
         }
       });
 
-      this.scene.add(object);
-    }, undefined, (error) => {
+    }, (xhr) => {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    }, (error) => {
       console.error('An error happened loading the mesh', error);
     });
   }

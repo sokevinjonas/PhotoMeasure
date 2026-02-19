@@ -8,6 +8,9 @@ import { StorageService } from 'src/app/services/storage.service';
 import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { finalize } from 'rxjs/operators';
+import { addIcons } from 'ionicons';
+import { manOutline, womanOutline, arrowForward, bodyOutline, accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, ellipseOutline } from 'ionicons/icons';
+import { camera } from 'ionicons/icons';
 
 @Component({
   selector: 'app-measure-wizard',
@@ -19,11 +22,24 @@ import { finalize } from 'rxjs/operators';
 export class MeasureWizardPage implements OnInit {
 
   currentStep = 1;
+
+  // Step 1: Client Info
+  gender: 'male' | 'female' | 'neutral' = 'male';
   height: number | undefined;
   
+  // Step 2: Measurement Selection
+  readonly availableMeasures = [
+    "Dos", "Epaule", "Poitrine", "Long Manche", "Tour de Manche", 
+    "Long Taille", "Tour Taille", "Pinces", "Long Camisole", "Long Robe", 
+    "Long Chemise", "Ceinture", "Bassin", "Cuisse", "Genou", 
+    "Long jupe", "Long Pantalon", "Bas", "Poignet", "Tour Emanchure"
+  ];
+  
+  selectedMeasures: string[] = [...this.availableMeasures]; // Default select all
+
+  // Step 3: Photos
   frontPhoto: Photo | undefined;
   sidePhoto: Photo | undefined;
-  
   frontPhotoWebPath: string | undefined;
   sidePhotoWebPath: string | undefined;
 
@@ -34,20 +50,53 @@ export class MeasureWizardPage implements OnInit {
     private apiService: ApiService,
     private storage: StorageService,
     private router: Router
-  ) { }
+  ) { 
+    addIcons({ 
+      manOutline, womanOutline, arrowForward, 
+      bodyOutline, accessibilityOutline, addCircle,
+      lockClosedOutline, checkmarkCircle, ellipseOutline
+    });
+  }
 
-  ngOnInit() {
-    // Pre-fill height if available in profile
-    const profile = this.storage.getUserProfile();
-    if (profile && profile.weight) {
-      // Logic for height if saved? We didn't save height in onboarding, only age/weight/gender
-      // But if we did...
+  ngOnInit() {}
+
+  nextStep() {
+    if (this.currentStep === 1) {
+      if (this.height && this.gender) {
+        this.currentStep++;
+      } else {
+        alert('Veuillez renseigner la taille et le sexe.');
+      }
+    } else if (this.currentStep === 2) {
+      if (this.selectedMeasures.length > 0) {
+        this.currentStep++;
+      } else {
+        alert('Veuillez sélectionner au moins une mesure.');
+      }
     }
   }
 
-  nextStep() {
-    if (this.currentStep === 1 && this.height) {
-      this.currentStep++;
+  previousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    } else {
+      this.router.navigate(['/tabs/tab1']);
+    }
+  }
+
+  toggleMeasure(measure: string) {
+    if (this.selectedMeasures.includes(measure)) {
+      this.selectedMeasures = this.selectedMeasures.filter(m => m !== measure);
+    } else {
+      this.selectedMeasures.push(measure);
+    }
+  }
+
+  toggleAll(event: any) {
+    if (event.detail.checked) {
+      this.selectedMeasures = [...this.availableMeasures];
+    } else {
+      this.selectedMeasures = [];
     }
   }
 
@@ -56,7 +105,7 @@ export class MeasureWizardPage implements OnInit {
       const photo = await this.photoService.addNewToGallery();
       if (type === 'front') {
         this.frontPhoto = photo;
-        this.frontPhotoWebPath = photo.webPath; // For preview
+        this.frontPhotoWebPath = photo.webPath;
       } else {
         this.sidePhoto = photo;
         this.sidePhotoWebPath = photo.webPath;
@@ -70,35 +119,41 @@ export class MeasureWizardPage implements OnInit {
     if (!this.frontPhoto || !this.sidePhoto || !this.height) return;
 
     this.isLoading = true;
-    const profile = this.storage.getUserProfile();
     
-    // Convert photos to Files
-    const frontFile = await this.photoService.getFileFromPhoto(this.frontPhoto);
-    const sideFile = await this.photoService.getFileFromPhoto(this.sidePhoto);
+    try {
+      const frontFile = await this.photoService.getFileFromPhoto(this.frontPhoto);
+      const sideFile = await this.photoService.getFileFromPhoto(this.sidePhoto);
 
-    this.apiService.estimate(
-      frontFile, 
-      sideFile, 
-      this.height, 
-      profile.gender || 'male', // Default to male if missing
-      true // Include mesh
-    ).pipe(
-      finalize(() => this.isLoading = false)
-    ).subscribe({
-      next: (response) => {
-        // Navigate to results page with data
-        // For now, let's just log it or pass it via state
-        console.log('Estimation result:', response);
-        // We need a results page. Passing data via state or service is best.
-        // Let's use router state for simplicity in V1
-        this.router.navigate(['/results'], { state: { data: response } });
-      },
-      error: (err) => {
-        console.error('Estimation error', err);
-        alert('Erreur lors de l\'estimation. Veuillez réessayer.');
-      }
-    });
-
+      this.apiService.estimate(
+        frontFile, 
+        sideFile, 
+        this.height, 
+        this.gender, 
+        this.selectedMeasures, // Pass selection
+        true 
+      ).pipe(
+        finalize(() => this.isLoading = false)
+      ).subscribe({
+        next: (response) => {
+          const resultData = {
+            ...response,
+            userProfile: { 
+              gender: this.gender,
+              height: this.height
+            }
+          };
+          this.router.navigate(['/results'], { state: { data: resultData } });
+        },
+        error: (err) => {
+          console.error('Estimation error', err);
+          alert('Erreur: ' + (err.error?.error || 'Une erreur est survenue lors de l\'estimation.'));
+        }
+      });
+    } catch (e) {
+      this.isLoading = false;
+      console.error(e);
+      alert('Erreur lors de la préparation des fichiers.');
+    }
   }
 
 }

@@ -1,0 +1,165 @@
+
+// Custom Font overrides if needed, assuming global font is set or default
+:host {
+  --page-bg: #f8f9fa;
+}
+
+.dashboard-content {
+  --background: var(--page-bg);
+}
+
+.header-title {
+  padding-top: 10px;
+  small {
+    font-size: 0.9rem;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+  strong {
+    font-size: 1.5rem;
+    color: var(--ion-color-dark);
+  }
+}
+
+/* Hero Card */
+.hero-card {
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+  border-radius: 24px;
+  padding: 24px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 20px rgba(var(--ion-color-primary-rgb), 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  /* Ensure ripple is contained */
+  transform: translateZ(0); 
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  h2 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 5px 0 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+
+  /* Background decorative icon */
+  .hero-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -40px;
+    font-size: 8rem;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    z-index: 1;
+    
+    ion-icon {
+      display: block;
+    }
+  }
+}
+
+/* Stats Row */
+.stats-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+
+  .stat-card {
+    flex: 1;
+    background: white;
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+
+    h3 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--ion-color-dark);
+    }
+
+    p {
+      margin: 5px 0 0 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+/* Recent List */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 5px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+  }
+}
+
+.recent-list {
+  background: transparent;
+  padding: 0;
+}
+
+.recent-item {
+  --background: white;
+  --border-radius: 16px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border-radius: 16px;
+
+  ion-label {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    
+    h2 {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.avatar-placeholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-right: 15px;
+
+  &.bg-blue { background: #5e81f4; }
+  &.bg-green { background: #4ecfae; }
+}

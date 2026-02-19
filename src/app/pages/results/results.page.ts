@@ -7,6 +7,11 @@ import { EstimationResponse, FeedbackRequest, Measurements } from 'src/app/model
 import { ApiService } from 'src/app/services/api.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ThreeService } from 'src/app/services/three.service';
+import { addIcons } from 'ionicons';
+import { 
+  cubeOutline, alertCircleOutline, informationCircleOutline, 
+  checkmarkDoneOutline 
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-results',
@@ -25,17 +30,27 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
   // Flattened for easy editing in template
   measurementsList: { key: string, value: number, original: number }[] = [];
 
+  userProfile: any; // To store the passed context
+
   constructor(
     private router: Router,
     private apiService: ApiService,
     private storage: StorageService,
     private threeService: ThreeService
   ) { 
+    addIcons({ 
+      cubeOutline, alertCircleOutline, informationCircleOutline, 
+      checkmarkDoneOutline 
+    });
+
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
-      this.result = navigation.extras.state['data'];
+      const data = navigation.extras.state['data'];
+      this.result = data; // This now has extra properties mixed in, but that's fine for runtime
+      this.userProfile = data.userProfile; // Extract the profile context
+
       if(this.result) {
-        this.originalMeasurements = { ...this.result.measurements }; // Deep copy not needed for simple object
+        this.originalMeasurements = { ...this.result.measurements }; 
         this.initializeList();
       }
     }
@@ -44,18 +59,25 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
+  ionViewDidEnter() {
     if (this.result?.mesh_url && this.rendererCanvas) {
+      console.log('Initializing 3D view with canvas:', this.rendererCanvas.nativeElement);
+      // Initialize ThreeJS
       this.threeService.initialize(this.rendererCanvas.nativeElement);
-      // Construct full URL if needed, or assume absolute
-      // If the backend returns relative URL, prepend API URL
-      // For now assume absolute or relative to root
+      
+      // Construct full URL
       const meshUrl = this.result.mesh_url.startsWith('http') 
         ? this.result.mesh_url 
-        : `http://localhost:5000${this.result.mesh_url}`; // TODO: Use env variable
+        : `http://localhost:5000${this.result.mesh_url}`; 
 
       this.threeService.loadMesh(meshUrl);
+    } else {
+      console.warn('Cannot init 3D: Missing result or canvas');
     }
+  }
+
+  ngAfterViewInit() {
+    // Moved to ionViewDidEnter
   }
 
   ngOnDestroy() {

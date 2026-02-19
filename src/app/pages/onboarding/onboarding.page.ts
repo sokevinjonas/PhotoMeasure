@@ -1,25 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-import { UserProfile } from '../../models/photo-measure.model';
+import { register } from 'swiper/element/bundle';
+
+register(); // Register Swiper custom elements
 
 @Component({
   selector: 'app-onboarding',
   templateUrl: './onboarding.page.html',
   styleUrls: ['./onboarding.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [IonicModule, CommonModule]
 })
 export class OnboardingPage implements OnInit {
-
-  profile: UserProfile = {
-    gender: 'male',
-    age: undefined,
-    weight: undefined
-  };
 
   constructor(
     private router: Router,
@@ -29,13 +25,11 @@ export class OnboardingPage implements OnInit {
   ngOnInit() {
   }
 
-  startApp() {
-    if (this.profile.age && this.profile.weight && this.profile.gender) {
-      this.storage.saveUserProfile(this.profile);
-      this.router.navigate(['/tabs']);
-    } else {
-      alert('Veuillez remplir toutes les informations pour continuer.');
-    }
+  completeOnboarding() {
+    // Mark tutorial as seen
+    this.storage.saveUserProfile({ tutorialSeen: true });
+    
+    this.router.navigate(['/tabs']);
   }
 
 }
