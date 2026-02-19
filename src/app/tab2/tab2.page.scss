@@ -1,19 +1,147 @@
 
+:host {
+  --page-bg: #f8f9fa;
+}
+
+.page-content {
+  --background: var(--page-bg);
+}
+
+.header-toolbar {
+  --background: var(--page-bg);
+  --border-width: 0;
+  padding-top: 10px;
+}
+
+.page-title {
+  font-weight: 800;
+  font-size: 1.8rem;
+  padding-left: 10px;
+  color: var(--ion-color-dark);
+}
+
+.search-toolbar {
+  --background: var(--page-bg);
+  --border-width: 0;
+  padding: 0 10px 10px;
+
+  .custom-searchbar {
+    --background: white;
+    --box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    --border-radius: 12px;
+    padding: 0;
+  }
+}
+
+.list-container {
+  padding: 15px;
+}
+
+.bg-transparent {
+  background: transparent !important;
+}
+
+.client-card-sliding {
+  background: transparent;
+  margin-bottom: 15px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.client-card {
+  --background: white;
+  --border-radius: 16px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  border-radius: 16px;
+
+  .avatar-circle {
+    width: 50px;
+    height: 50px;
+    background: #eef2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--ion-color-primary);
+    font-size: 1.5rem;
+
+    &.female {
+      background: #fff0f5;
+      color: #ff69b4;
+    }
+  }
+
+  ion-label {
+    h2 {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+      color: var(--ion-color-dark);
+    }
+    .date {
+      color: var(--ion-color-medium);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+  }
+
+  .meta-tags {
+    display: flex;
+    gap: 8px;
+    
+    .tag {
+      background: #f4f5f8;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .action-arrow {
+    color: #ccc;
+    font-size: 1.2rem;
+  }
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80%;
+  height: 60vh; // Center vertically on available space
   color: var(--ion-color-medium);
+  text-align: center;
   
-  ion-icon {
-    font-size: 4rem;
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
-    opacity: 0.5;
+    
+    ion-icon {
+      font-size: 3rem;
+      opacity: 0.4;
+    }
+  }
+  
+  h3 {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    color: var(--ion-color-dark);
   }
   
   p {
-    font-size: 1.1rem;
+    margin: 0;
+    font-size: 0.95rem;
   }
 }

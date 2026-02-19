@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { IonicModule, ViewDidEnter } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { MeasurementRecord } from '../models/photo-measure.model';
 import { addIcons } from 'ionicons';
-import { timeOutline, manOutline, womanOutline, chevronForward, trashOutline } from 'ionicons/icons';
+import { timeOutline, manOutline, womanOutline, chevronForward, trashOutline, searchOutline, personOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab2',
@@ -17,8 +18,11 @@ export class Tab2Page implements ViewDidEnter {
 
   measurements: MeasurementRecord[] = [];
 
-  constructor(private storage: StorageService) {
-    addIcons({ timeOutline, manOutline, womanOutline, chevronForward, trashOutline });
+  constructor(
+    private storage: StorageService,
+    private router: Router
+  ) {
+    addIcons({ timeOutline, manOutline, womanOutline, chevronForward, trashOutline, searchOutline, personOutline });
   }
 
   ionViewDidEnter() {
@@ -32,6 +36,19 @@ export class Tab2Page implements ViewDidEnter {
   delete(id: string) {
     this.storage.deleteMeasurement(id);
     this.refresh();
+  }
+
+  goToDetails(measurement: MeasurementRecord) {
+    this.router.navigate(['/results'], { 
+      state: { 
+        data: {
+          prediction_id: measurement.id,
+          measurements: measurement.measurements,
+          mesh_url: measurement.mesh_url,
+          metadata: { mode: 'history' }
+        }
+      } 
+    });
   }
 
 }

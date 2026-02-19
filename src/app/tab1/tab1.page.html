@@ -8,48 +8,19 @@
 
 <ion-content [fullscreen]="true" class="dashboard-content">
   
-  <div class="ion-padding">
-    
-    <!-- Hero Action Card -->
-    <div class="hero-card ion-activatable ripple-parent" (click)="startNewMeasurement()">
-      <ion-ripple-effect></ion-ripple-effect>
-      <div class="hero-content" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
+  <div class="ion-padding">  
+    <div class="centered-container"> 
+      <!-- Hero Action Card -->
+      <div class="hero-card ion-activatable ripple-parent" (click)="startNewMeasurement()">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="hero-content">
+          <div class="icon-circle">
+            <ion-icon name="camera-outline"></ion-icon>
+          </div>
           <h2>Nouveau Scan</h2>
-          <p>Scanner un client</p>
-        </div>
-        <div class="action-btn">
-          <ion-icon name="camera-outline" style="font-size: 3rem; color: white;"></ion-icon>
+          <p>Appuyez pour commencer</p>
         </div>
       </div>
     </div>
-
-    <!-- Recent Section Header -->
-    <div class="section-header" style="margin-top: 30px;">
-      <h3>Dernier Ajout</h3>
-      <ion-button fill="clear" size="small" routerLink="/tabs/tab2">Voir liste</ion-button>
-    </div>
-
-    <!-- Dynamic Last Measurement Card -->
-    <div class="recent-card ion-activatable ripple-parent" *ngIf="lastMeasurement" (click)="goToDetails(lastMeasurement)">
-      <ion-ripple-effect></ion-ripple-effect>
-      <div class="card-icon">
-        <ion-icon name="person-outline"></ion-icon>
-      </div>
-      <div class="card-content">
-        <h3>{{ lastMeasurement.date | date:'dd MMM yyyy' }}</h3>
-        <p>{{ lastMeasurement.date | date:'HH:mm' }} • {{ lastMeasurement.userProfile?.gender === 'female' ? 'Femme' : 'Homme' }}</p>
-        <div class="tags" *ngIf="lastMeasurement.userProfile?.height">
-          <span class="tag">{{ lastMeasurement.userProfile?.height }}m</span>
-        </div>
-      </div>
-      <ion-icon name="chevron-forward" class="arrow"></ion-icon>
-    </div>
-
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="!lastMeasurement">
-      <p>Aucun client enregistré.</p>
-    </div>
-
   </div>
 </ion-content>
