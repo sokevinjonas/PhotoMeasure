@@ -31,4 +31,8 @@ export const routes: Routes = [
     path: 'privacy',
     loadComponent: () => import('./pages/privacy/privacy.page').then( m => m.PrivacyPage)
   },
+  {
+    path: 'language',
+    loadComponent: () => import('./pages/language/language.page').then( m => m.LanguagePage)
+  },
 ];

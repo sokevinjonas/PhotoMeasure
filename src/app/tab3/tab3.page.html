@@ -39,13 +39,12 @@
 
     <!-- General Settings -->
     <ion-list [inset]="true">
-      <ion-item button id="open-language-modal">
+      <ion-item button routerLink="/language" detail="true">
         <div class="icon-slot" slot="start" style="background: #e3f2fd; color: #1565c0;">
           <ion-icon name="globe-outline"></ion-icon>
         </div>
         <ion-label>Langue</ion-label>
         <ion-note slot="end">{{ getLanguageName(selectedLanguage) }}</ion-note>
-        <ion-icon name="chevron-forward" slot="end" color="medium" style="font-size: 0.9rem;"></ion-icon>
       </ion-item>
 
       <ion-item>
@@ -95,27 +94,6 @@
 
   </div>
 
-  <!-- Language Modal -->
-  <ion-modal trigger="open-language-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.5, 0.75, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Choisir la langue</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeModal()">Fermer</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-list [inset]="true">
-          <ion-item button *ngFor="let lang of languages" (click)="selectLanguage(lang.code)" [detail]="false">
-            <ion-label>{{ lang.name }}</ion-label>
-            <ion-icon name="checkmark-circle" color="primary" slot="end" *ngIf="selectedLanguage === lang.code"></ion-icon>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 
 
 </ion-content>

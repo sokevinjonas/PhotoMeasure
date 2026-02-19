@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, ModalController } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { 
   star, globeOutline, moonOutline, cloudDownloadOutline, 
@@ -17,7 +17,7 @@ import {
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
 })
 export class Tab3Page {
 
