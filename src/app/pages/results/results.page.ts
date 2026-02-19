@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { EstimationResponse, FeedbackRequest, Measurements } from 'src/app/models/photo-measure.model';
+import { EstimationResponse, FeedbackRequest, Measurements, MeasurementRecord } from 'src/app/models/photo-measure.model';
 import { ApiService } from 'src/app/services/api.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ThreeService } from 'src/app/services/three.service';
@@ -127,14 +127,35 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
     // Or just "Perfect"?
     // For now let's send what we have.
 
+    // Save to local storage
+    const record: MeasurementRecord = {
+      id: this.result.prediction_id,
+      date: new Date().toISOString(),
+      measurements: corrections, // Or mix of original + corrections? Better to save final state.
+      // Wait, corrections only has changed values. We need ALL values.
+      // Let's reconstruct full object
+      mesh_url: this.result.mesh_url,
+      userProfile: this.userProfile,
+      synced: true 
+    };
+
+    // Reconstruct full measurements object from list
+    const finalMeasurements: Measurements = {};
+    this.measurementsList.forEach(m => finalMeasurements[m.key] = m.value);
+    record.measurements = finalMeasurements;
+
+    this.storage.saveMeasurement(record);
+
     this.apiService.sendFeedback(feedback).subscribe({
       next: () => {
-        alert('Merci pour votre retour !');
+        alert('Mesures enregistrées !');
         this.router.navigate(['/tabs/tab1']);
       },
       error: (e) => {
         console.error(e);
-        alert('Erreur lors de l\'envoi du feedback.');
+        // Even if API fails, we saved locally.
+        alert('Sauvegardé localement (Erreur envoi feedback serveur).');
+        this.router.navigate(['/tabs/tab1']);
       }
     });
   }

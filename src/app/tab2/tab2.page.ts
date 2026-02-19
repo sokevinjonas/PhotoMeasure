@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ViewDidEnter } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
+import { MeasurementRecord } from '../models/photo-measure.model';
+import { addIcons } from 'ionicons';
+import { timeOutline, manOutline, womanOutline, chevronForward, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab2',
@@ -9,8 +13,25 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [IonicModule, CommonModule]
 })
-export class Tab2Page {
+export class Tab2Page implements ViewDidEnter {
 
-  constructor() {}
+  measurements: MeasurementRecord[] = [];
+
+  constructor(private storage: StorageService) {
+    addIcons({ timeOutline, manOutline, womanOutline, chevronForward, trashOutline });
+  }
+
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.measurements = this.storage.getMeasurements();
+  }
+
+  delete(id: string) {
+    this.storage.deleteMeasurement(id);
+    this.refresh();
+  }
 
 }

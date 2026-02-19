@@ -38,3 +38,12 @@ export interface FeedbackRequest {
     age?: number;
   };
 }
+
+export interface MeasurementRecord {
+  id: string;
+  date: string; // ISO string
+  measurements: Measurements;
+  mesh_url?: string;
+  userProfile?: UserProfile;
+  synced: boolean; // True if feedback sent
+}

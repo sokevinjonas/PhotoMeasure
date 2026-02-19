@@ -35,62 +35,45 @@
       </div>
     </div>
 
-    <!-- Quick Stats Row -->
+    <!-- Quick Stats Row (Dynamic) -->
     <div class="stats-row">
       <div class="stat-card">
-        <h3>12</h3>
-        <p>Clients</p>
+        <h3>{{ totalStats }}</h3>
+        <p>Mesures</p>
       </div>
-      <div class="stat-card">
-        <h3>5</h3>
-        <p>Cette semaine</p>
+      <!-- Placeholder for future stats -->
+      <div class="stat-card" style="opacity: 0.5;">
+        <h3>--</h3>
+        <p>Semaine</p>
       </div>
     </div>
 
     <!-- Recent Section -->
     <div class="section-header">
       <h3>Récent</h3>
-      <ion-button fill="clear" size="small">Voir tout</ion-button>
+      <ion-button fill="clear" size="small" routerLink="/tabs/tab2">Voir tout</ion-button>
     </div>
 
-    <ion-list lines="none" class="recent-list">
-      
-      <!-- Mock Item 1 -->
-      <ion-item class="recent-item">
-        <div slot="start" class="avatar-placeholder bg-blue">
-          JL
+    <!-- Dynamic Last Measurement Card -->
+    <div class="recent-card ion-activatable ripple-parent" *ngIf="lastMeasurement" (click)="goToDetails(lastMeasurement)">
+      <ion-ripple-effect></ion-ripple-effect>
+      <div class="card-icon">
+        <ion-icon name="scan-circle"></ion-icon>
+      </div>
+      <div class="card-content">
+        <h3>{{ lastMeasurement.date | date:'dd MMM yyyy' }}</h3>
+        <p>{{ lastMeasurement.date | date:'HH:mm' }} • {{ lastMeasurement.userProfile?.gender === 'female' ? 'Femme' : 'Homme' }}</p>
+        <div class="tags" *ngIf="lastMeasurement.userProfile?.height">
+          <span class="tag">{{ lastMeasurement.userProfile?.height }}m</span>
         </div>
-        <ion-label>
-          <h2>Jean Luc</h2>
-          <p>Il y a 2 heures</p>
-        </ion-label>
-        <ion-note slot="end" color="medium">
-          <ion-icon name="chevron-forward"></ion-icon>
-        </ion-note>
-      </ion-item>
+      </div>
+      <ion-icon name="chevron-forward" class="arrow"></ion-icon>
+    </div>
 
-      <!-- Mock Item 2 -->
-      <ion-item class="recent-item">
-        <div slot="start" class="avatar-placeholder bg-green">
-          MA
-        </div>
-        <ion-label>
-          <h2>Marie Anne</h2>
-          <p>Hier</p>
-        </ion-label>
-        <ion-note slot="end" color="medium">
-          <ion-icon name="chevron-forward"></ion-icon>
-        </ion-note>
-      </ion-item>
-
-      <!-- Empty State (Conditional) -->
-      <!-- 
-      <div class="empty-state">
-        <p>Aucune mesure pour le moment.</p>
-      </div> 
-      -->
-
-    </ion-list>
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!lastMeasurement">
+      <p>Aucune mesure récente.</p>
+    </div>
 
   </div>
 </ion-content>

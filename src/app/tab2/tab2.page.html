@@ -13,7 +13,27 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="container" style="text-align: center; margin-top: 50px; color: #666;">
-    <p>Vos mesures passées apparaîtront ici.</p>
+  <ion-list *ngIf="measurements.length > 0">
+    <ion-item-sliding *ngFor="let m of measurements">
+      <ion-item lines="full" detail>
+        <ion-icon [name]="m.userProfile?.gender === 'female' ? 'woman-outline' : 'man-outline'" slot="start" size="large"></ion-icon>
+        <ion-label>
+          <h2>{{ m.date | date:'dd MMM yyyy' }}</h2>
+          <p>{{ m.date | date:'HH:mm' }} • {{ m.userProfile?.height }}m</p>
+        </ion-label>
+        <ion-note slot="end">{{ m.synced ? 'Validé' : 'Brouillon' }}</ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(m.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty-state" *ngIf="measurements.length === 0">
+    <ion-icon name="time-outline"></ion-icon>
+    <p>Aucun historique pour le moment.</p>
   </div>
 </ion-content>

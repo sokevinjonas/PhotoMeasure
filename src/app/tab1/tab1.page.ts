@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ViewDidEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, scanCircle, scanOutline, camera, chevronForward } from 'ionicons/icons';
+import { StorageService } from '../services/storage.service';
+import { MeasurementRecord } from '../models/photo-measure.model';
 
 @Component({
   selector: 'app-tab1',
@@ -12,9 +14,35 @@ import { notificationsOutline, scanCircle, scanOutline, camera, chevronForward }
   standalone: true,
   imports: [IonicModule, CommonModule],
 })
-export class Tab1Page {
-  constructor(private router: Router) {
+export class Tab1Page implements ViewDidEnter {
+
+  lastMeasurement: MeasurementRecord | null = null;
+  totalStats = 0;
+
+  constructor(
+    private router: Router,
+    private storage: StorageService
+  ) {
     addIcons({ notificationsOutline, scanCircle, scanOutline, camera, chevronForward });
+  }
+
+  ionViewDidEnter() {
+    this.lastMeasurement = this.storage.getLastMeasurement();
+    this.totalStats = this.storage.getMeasurements().length;
+  }
+
+  goToDetails(measurement: MeasurementRecord) {
+    // Navigate to results page with state
+    this.router.navigate(['/results'], { 
+      state: { 
+        data: {
+          prediction_id: measurement.id,
+          measurements: measurement.measurements,
+          mesh_url: measurement.mesh_url,
+          metadata: { mode: 'history' } // Flag to know it's from history
+        }
+      } 
+    });
   }
 
   startNewMeasurement() {
