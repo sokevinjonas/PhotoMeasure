@@ -8,8 +8,19 @@ export class StorageService {
 
   private readonly KEY_USER_PROFILE = 'photo_measure_user_profile';
   private readonly KEY_MEASUREMENTS = 'photo_measure_history';
+  private readonly KEY_IS_PREMIUM = 'photo_measure_is_premium';
 
   constructor() { }
+
+  // --- Premium Status ---
+
+  isPremium(): boolean {
+    return localStorage.getItem(this.KEY_IS_PREMIUM) === 'true';
+  }
+
+  setPremium(status: boolean): void {
+    localStorage.setItem(this.KEY_IS_PREMIUM, String(status));
+  }
 
   saveUserProfile(profile: any): void {
     localStorage.setItem(this.KEY_USER_PROFILE, JSON.stringify(profile));

@@ -1,0 +1,171 @@
+
+ion-content {
+  --background: #0f172a; 
+}
+
+.hero-section {
+  position: relative;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 70%);
+  overflow: hidden;
+
+  .glow-effect {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(0,0,0,0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .crown-icon {
+    font-size: 4rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+    z-index: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    z-index: 1;
+  }
+
+  .subtitle {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-top: 8px;
+    z-index: 1;
+  }
+}
+
+.features-list {
+  padding: 20px;
+  background: #f8fafc; /* Light background for content */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
+  min-height: 60vh;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  padding: 10px;
+  
+  .icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+
+  .text {
+    h3 {
+      margin: 0 0 5px 0;
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 1.1rem;
+    }
+    p {
+      margin: 0;
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+  }
+}
+
+.pricing-card {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 100px; /* Space for footer */
+
+  .price-tag {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    color: #0f172a;
+    
+    .currency {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .amount {
+      font-size: 3.5rem;
+      font-weight: 800;
+    }
+    .period {
+      align-self: flex-end;
+      margin-bottom: 10px;
+      color: #64748b;
+      font-weight: 500;
+    }
+  }
+
+  .price-equivalent {
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+
+  .payment-method {
+    color: #22c55e;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    
+    &::before {
+      content: '🔒';
+    }
+  }
+}
+
+ion-footer {
+  background: #f8fafc;
+  padding: 10px 20px 20px 20px;
+}
+
+.premium-btn {
+  --background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  --color: #000;
+  font-weight: 700;
+  margin-bottom: 10px;
+  --box-shadow: 0 10px 20px rgba(255, 165, 0, 0.3);
+}
+
+.restore-btn {
+  font-size: 0.8rem;
+  text-transform: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}

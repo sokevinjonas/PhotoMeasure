@@ -1,0 +1,158 @@
+
+:host {
+  --ion-background-color: #f6f8fc;
+}
+
+.settings-container {
+  padding-bottom: 40px;
+}
+
+.premium-section {
+  padding: 16px 16px 8px 16px;
+}
+
+.premium-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); /* More sleek dark premium look */
+  border-radius: 20px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(30%, -30%);
+    border-radius: 50%;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%); /* Emerald green */
+  }
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .icon-circle {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(5px);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: #FFD700;
+  }
+
+  .text-content {
+    flex: 1;
+    
+    h3 {
+      margin: 0 0 6px 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      font-weight: 400;
+    }
+  }
+
+  .action-arrow {
+    background: rgba(255,255,255,0.1);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .check-mark {
+    color: #a7f3d0;
+    font-size: 1.8rem;
+  }
+}
+
+.icon-slot {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-right: 12px;
+}
+
+/* Privacy Modal Styles */
+.privacy-content {
+  text-align: center;
+  padding-top: 20px;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: var(--ion-color-dark);
+  }
+
+  .policy-section {
+    background: var(--ion-color-light);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+
+    .section-icon {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--ion-color-primary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    h3 {
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      font-size: 1.1rem;
+    }
+
+    p {
+      color: var(--ion-color-medium);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+}
