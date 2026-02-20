@@ -514,3 +514,59 @@
   margin-top: 10px;
   font-size: 0.9rem;
 }
+
+/* Custom Analyze Button & Spinner */
+.analyze-btn {
+  height: 56px;
+  --transition: all 0.3s ease;
+  
+  /* Add a cool gradient for the button */
+  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+
+  span {
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+
+  &.is-loading {
+    /* Prevent the button from looking disabled (dimmed) when loading */
+    opacity: 1 !important;
+    --opacity: 1 !important;
+    pointer-events: none; /* Already handled by disabled attr, but just to be safe */
+    
+    /* Make the gradient animate or stay vibrant */
+    --background: linear-gradient(135deg, var(--ion-color-tertiary) 0%, var(--ion-color-primary) 100%);
+  }
+
+  .custom-spinner-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    
+    ion-spinner {
+      transform: scale(1.1);
+      /* Use a nice animation */
+      animation: spinSmooth 1s linear infinite;
+    }
+    
+    .spinner-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+      animation: pulseText 1.5s infinite alternate ease-in-out;
+    }
+  }
+}
+
+@keyframes pulseText {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spinSmooth {
+  0% { transform: rotate(0deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1.1); }
+}

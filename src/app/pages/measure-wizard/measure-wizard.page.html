@@ -125,9 +125,12 @@
       </div>
 
       <div class="footer-action">
-        <ion-button expand="block" shape="round" size="large" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading">
+        <ion-button expand="block" shape="round" size="large" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading" class="analyze-btn" [class.is-loading]="isLoading">
           <span *ngIf="!isLoading">Lancer l'analyse</span>
-          <ion-spinner *ngIf="isLoading"></ion-spinner>
+          <div class="custom-spinner-wrapper" *ngIf="isLoading">
+            <ion-spinner name="crescent" color="light"></ion-spinner>
+            <span class="spinner-text">Génération 3D...</span>
+          </div>
         </ion-button>
         <div class="secure-note">
           <ion-icon name="lock-closed-outline"></ion-icon>

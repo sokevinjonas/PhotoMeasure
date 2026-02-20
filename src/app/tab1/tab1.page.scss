@@ -1,14 +1,3 @@
-
-// Custom Font overrides if needed, assuming global font is set or default
-:host {
-  --page-bg: #f8f9fa;
-}
-
-.dashboard-content {
-  --background: var(--page-bg);
-}
-
-
 .centered-container {
   display: flex;
   flex-direction: column;
