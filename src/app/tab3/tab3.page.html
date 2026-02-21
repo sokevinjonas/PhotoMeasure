@@ -1,99 +1,95 @@
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-title>Paramètres</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" color="light">
-  
-  <ion-header collapse="condense">
-    <ion-toolbar color="light">
-      <ion-title size="large">Paramètres</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="settings-content">
+  <div class="header-decoration"></div>
 
   <div class="settings-container">
     
     <!-- Premium Card -->
-    <div class="premium-section">
+    <div class="premium-section fade-in">
       <div class="premium-card" [class.active]="isPremium" (click)="buyPremium()">
+        <div class="premium-bg-glow"></div>
         <div class="card-content">
           <div class="icon-circle">
-            <ion-icon name="diamond-outline"></ion-icon>
+            <ion-icon [name]="isPremium ? 'checkmark-circle' : 'diamond-outline'"></ion-icon>
           </div>
           <div class="text-content">
-            <h3 *ngIf="!isPremium">Passer Premium</h3>
-            <h3 *ngIf="isPremium">Premium Activé</h3>
-            <p *ngIf="!isPremium">Supprimer les pubs & Export données</p>
-            <p *ngIf="isPremium">Merci pour votre soutien !</p>
+            <h3>{{ isPremium ? 'Membre Premium' : 'Débloquer Premium' }}</h3>
+            <p>{{ isPremium ? 'Merci pour votre soutien !' : 'Supprimer les pubs & Export illimité' }}</p>
           </div>
           <div class="action-arrow" *ngIf="!isPremium">
             <ion-icon name="chevron-forward"></ion-icon>
-          </div>
-          <div class="check-mark" *ngIf="isPremium">
-            <ion-icon name="checkmark-circle"></ion-icon>
           </div>
         </div>
       </div>
     </div>
 
     <!-- General Settings -->
-    <ion-list [inset]="true">
-      <ion-item button routerLink="/language" detail="true">
-        <div class="icon-slot" slot="start" style="background: #e3f2fd; color: #1565c0;">
-          <ion-icon name="globe-outline"></ion-icon>
-        </div>
-        <ion-label>Langue</ion-label>
-        <ion-note slot="end">{{ getLanguageName(selectedLanguage) }}</ion-note>
-      </ion-item>
+    <div class="section-group">
+      <h3 class="group-title">Général</h3>
+      <ion-list lines="none" class="custom-list">
+        <ion-item button routerLink="/language" detail="false">
+          <div class="icon-slot" slot="start" style="background: #eef2ff; color: #6366f1;">
+            <ion-icon name="globe-outline"></ion-icon>
+          </div>
+          <ion-label>Langue</ion-label>
+          <ion-note slot="end" class="note-text">{{ getLanguageName(selectedLanguage) }}</ion-note>
+          <ion-icon name="chevron-forward" slot="end" class="list-arrow"></ion-icon>
+        </ion-item>
 
-      <ion-item>
-        <div class="icon-slot" slot="start" style="background: #f3e5f5; color: #7b1fa2;">
-          <ion-icon name="moon-outline"></ion-icon>
-        </div>
-        <ion-label>Mode Sombre</ion-label>
-        <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()" slot="end"></ion-toggle>
-      </ion-item>
-    </ion-list>
+        <ion-item>
+          <div class="icon-slot" slot="start" style="background: #fdf2f8; color: #db2777;">
+            <ion-icon name="moon-outline"></ion-icon>
+          </div>
+          <ion-label>Mode Sombre</ion-label>
+          <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()" slot="end" color="primary"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
 
     <!-- Data Settings -->
-    <ion-list [inset]="true">
-      <ion-item button (click)="exportData()">
-        <div class="icon-slot" slot="start" style="background: #e8f5e9; color: #2e7d32;">
-          <ion-icon name="cloud-download-outline"></ion-icon>
-        </div>
-        <ion-label>Exporter les données</ion-label>
-        <ion-icon slot="end" name="lock-closed-outline" color="medium" *ngIf="!isPremium"></ion-icon>
-      </ion-item>
+    <div class="section-group">
+      <h3 class="group-title">Données</h3>
+      <ion-list lines="none" class="custom-list">
+        <ion-item button (click)="exportData()" detail="false">
+          <div class="icon-slot" slot="start" style="background: #ecfdf5; color: #059669;">
+            <ion-icon name="cloud-download-outline"></ion-icon>
+          </div>
+          <ion-label>Exporter l'historique</ion-label>
+          <ion-icon slot="end" name="lock-closed-outline" color="medium" *ngIf="!isPremium" class="lock-icon"></ion-icon>
+          <ion-icon name="chevron-forward" slot="end" class="list-arrow" *ngIf="isPremium"></ion-icon>
+        </ion-item>
 
-      <ion-item button (click)="clearHistory()">
-        <div class="icon-slot" slot="start" style="background: #ffebee; color: #c62828;">
-          <ion-icon name="trash-outline"></ion-icon>
-        </div>
-        <ion-label color="danger">Vider l'historique</ion-label>
-      </ion-item>
-    </ion-list>
+        <ion-item button (click)="clearHistory()" detail="false">
+          <div class="icon-slot" slot="start" style="background: #fef2f2; color: #dc2626;">
+            <ion-icon name="trash-outline"></ion-icon>
+          </div>
+          <ion-label color="danger">Réinitialiser les données</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
 
-    <!-- About Settings -->
-    <ion-list [inset]="true">
-      <ion-item button routerLink="/privacy" detail="true">
-        <div class="icon-slot" slot="start" style="background: #e0f2f1; color: #00695c;">
-          <ion-icon name="shield-checkmark-outline"></ion-icon>
-        </div>
-        <ion-label>Politique de Confidentialité</ion-label>
-      </ion-item>
+    <!-- Support Settings -->
+    <div class="section-group">
+      <h3 class="group-title">À Propos</h3>
+      <ion-list lines="none" class="custom-list">
+        <ion-item button routerLink="/privacy" detail="false">
+          <div class="icon-slot" slot="start" style="background: #f0f9ff; color: #0ea5e9;">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </div>
+          <ion-label>Confidentialité</ion-label>
+          <ion-icon name="chevron-forward" slot="end" class="list-arrow"></ion-icon>
+        </ion-item>
 
-      <ion-item>
-        <div class="icon-slot" slot="start" style="background: #eceff1; color: #455a64;">
-          <ion-icon name="information-circle-outline"></ion-icon>
-        </div>
-        <ion-label>Version</ion-label>
-        <ion-note slot="end">1.0.0</ion-note>
-      </ion-item>
-    </ion-list>
+        <ion-item detail="false">
+          <div class="icon-slot" slot="start" style="background: #f8fafc; color: #64748b;">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+          <ion-label>Version</ion-label>
+          <ion-note slot="end" class="note-text">1.0.0 (Release)</ion-note>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="footer-spacer"></div>
 
   </div>
-
-
-
 </ion-content>

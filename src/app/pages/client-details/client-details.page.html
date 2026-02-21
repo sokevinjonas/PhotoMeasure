@@ -5,26 +5,31 @@
         <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title mode="ios" class="page-title">Détails Client</ion-title>
-    <!-- Optional: Export/Share button could go here -->
+    <ion-title mode="ios" class="page-title">Détails</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="share()" color="primary">
+        <ion-icon name="share-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="page-content" *ngIf="client">
+  <div class="header-decoration"></div>
   
   <div class="content-container">
 
     <!-- Client Header Card -->
-    <div class="client-header-card">
+    <div class="client-header-card shadow">
       <div class="avatar-large" [class.female]="client.userProfile?.gender === 'female'">
-        <ion-icon [name]="client.userProfile?.gender === 'female' ? 'person-outline' : 'person-outline'"></ion-icon>
+        <ion-icon [name]="client.userProfile?.gender === 'female' ? 'woman-outline' : 'man-outline'"></ion-icon>
       </div>
       <div class="client-info">
         <h2>{{ client.userProfile?.name || 'Client #' + client.id.substring(0,6) }}</h2>
         <div class="meta-row">
           <div class="meta-item">
             <ion-icon name="calendar-outline"></ion-icon>
-            <span>Inscrit le : {{ client.date | date:'dd MMM yyyy' }}</span>
+            <span>{{ client.date | date:'dd MMM yyyy' }}</span>
           </div>
           <div class="meta-item" *ngIf="client.userProfile?.phone">
              <ion-icon name="call-outline"></ion-icon>
@@ -32,7 +37,7 @@
           </div>
           <div class="meta-item">
             <ion-icon name="accessibility-outline"></ion-icon>
-            <span>Taille : {{ client.userProfile?.height }}m</span>
+            <span>{{ client.userProfile?.height }}m</span>
           </div>
         </div>
       </div>
@@ -40,16 +45,21 @@
 
     <!-- Measurements List -->
     <div class="section-title">
-      <h3>Mesures</h3>
+      <h3>Mesures Extraites</h3>
       <span class="badge">{{ measurementsList.length }}</span>
     </div>
 
     <div class="measurements-grid">
       <div class="measure-card" *ngFor="let item of measurementsList">
-        <span class="label">{{ item.label }}</span>
+        <div class="measure-top">
+          <span class="label">{{ item.label }}</span>
+        </div>
         <div class="value-container">
           <span class="value">{{ item.value }}</span>
           <span class="unit">cm</span>
+        </div>
+        <div class="card-bg-icon">
+          <ion-icon name="trending-up-outline"></ion-icon>
         </div>
       </div>
     </div>

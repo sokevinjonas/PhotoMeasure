@@ -1,25 +1,85 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title mode="ios" class="page-title">
-      PhotoMesure
-    </ion-title>
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar color="transparent">
+    <ion-title mode="ios" class="page-title">Tableau de Bord</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="trending-up-outline" class="title-icon"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <div class="header-decoration"></div>
   
-  <div class="ion-padding">  
-    <div class="centered-container"> 
+  <div class="content-wrapper">
+    
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1>Bonjour !</h1>
+      <p>Prêt pour une nouvelle analyse ?</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-data">
+          <h3>{{ totalScans }}</h3>
+          <span>Total Scans</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <ion-icon name="trending-up-outline"></ion-icon>
+        </div>
+        <div class="stat-data">
+          <h3>{{ scansThisMonth }}</h3>
+          <span>Ce mois</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Action Card -->
+    <div class="main-action-section">
       <div class="hero-card ion-activatable ripple-parent" (click)="startNewMeasurement()">
         <ion-ripple-effect></ion-ripple-effect>
+        <div class="hero-bg-overlay"></div>
         <div class="hero-content">
           <div class="icon-circle">
             <ion-icon name="camera-outline"></ion-icon>
           </div>
-          <h2>Nouveau Scan</h2>
-          <p>Appuyez pour commencer</p>
+          <div class="hero-text">
+            <h2>Nouveau Scan 3D</h2>
+            <p>Démarrer une mesure intelligente</p>
+          </div>
+        </div>
+        <ion-button fill="clear" color="light" class="arrow-btn">
+          <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Last Scan Card -->
+    <div class="recent-section" *ngIf="lastScan">
+      <div class="section-header">
+        <h3>Dernière Analyse</h3>
+      </div>
+      
+      <div class="recent-card ion-activatable ripple-parent" (click)="viewLastScan()">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="client-avatar" [class.female]="lastScan.userProfile?.gender === 'female'">
+          <ion-icon [name]="lastScan.userProfile?.gender === 'female' ? 'woman-outline' : 'man-outline'"></ion-icon>
+        </div>
+        <div class="recent-info">
+          <h4>{{ lastScan.userProfile?.name || 'Client #' + lastScan.id.substring(0,6) }}</h4>
+          <p>{{ lastScan.date | date:'dd MMM, HH:mm' }}</p>
+        </div>
+        <div class="recent-arrow">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
       </div>
     </div>
+
   </div>
 </ion-content>

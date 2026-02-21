@@ -296,7 +296,7 @@
   margin-bottom: 40px;
 
   .gender-card {
-    background: #f4f5f8;
+    background: rgba(var(--ion-color-primary-rgb), 0.05);
     border-radius: 20px;
     width: 120px;
     height: 120px;
@@ -348,10 +348,10 @@
   }
 
   .custom-input {
-    --background: #f9f9f9;
+    --background: rgba(var(--ion-color-primary-rgb), 0.03);
     --padding-start: 16px;
     --padding-end: 16px;
-    --placeholder-color: #aaa;
+    --placeholder-color: var(--ion-color-medium);
     --placeholder-opacity: 1;
     --color: var(--ion-color-dark);
     border-radius: 12px;
@@ -520,8 +520,7 @@
   height: 56px;
   --transition: all 0.3s ease;
   
-  /* Add a cool gradient for the button */
-  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+  --background: var(--ion-color-primary);
 
   span {
     font-size: 1.1rem;
@@ -535,8 +534,7 @@
     --opacity: 1 !important;
     pointer-events: none; /* Already handled by disabled attr, but just to be safe */
     
-    /* Make the gradient animate or stay vibrant */
-    --background: linear-gradient(135deg, var(--ion-color-tertiary) 0%, var(--ion-color-primary) 100%);
+    --background: var(--ion-color-tertiary);
   }
 
   .custom-spinner-wrapper {

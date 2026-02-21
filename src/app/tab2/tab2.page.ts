@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { IonicModule, ViewDidEnter } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 import { MeasurementRecord } from '../models/photo-measure.model';
@@ -12,11 +13,12 @@ import { timeOutline, manOutline, womanOutline, chevronForward, trashOutline, se
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class Tab2Page implements ViewDidEnter {
 
   measurements: MeasurementRecord[] = [];
+  searchTerm: string = '';
 
   constructor(
     private storage: StorageService,
@@ -27,6 +29,18 @@ export class Tab2Page implements ViewDidEnter {
 
   ionViewDidEnter() {
     this.refresh();
+  }
+
+  get filteredMeasurements() {
+    if (!this.searchTerm.trim()) return this.measurements;
+    
+    const term = this.searchTerm.toLowerCase();
+    return this.measurements.filter(m => {
+      const name = (m.userProfile?.name || '').toLowerCase();
+      const phone = (m.userProfile?.phone || '').toLowerCase();
+      const id = m.id.toLowerCase();
+      return name.includes(term) || phone.includes(term) || id.includes(term);
+    });
   }
 
   refresh() {

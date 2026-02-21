@@ -12,14 +12,14 @@ ion-content {
   justify-content: center;
   text-align: center;
   padding: 20px;
-  background: radial-gradient(circle at 50% 30%, var(--ion-color-step-150, #1e293b) 0%, var(--ion-color-step-50, #0f172a) 70%);
+  background: #1a1c2c;
   overflow: hidden;
 
   .glow-effect {
     position: absolute;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(0,0,0,0) 70%);
+    background: rgba(255, 215, 0, 0.1);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -179,14 +179,14 @@ ion-footer {
   justify-content: center;
   text-align: center;
   padding: 20px;
-  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 70%);
+  background: #1a1c2c;
   overflow: hidden;
 
   .glow-effect {
     position: absolute;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(0,0,0,0) 70%);
+    background: rgba(255, 215, 0, 0.1);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -319,7 +319,7 @@ ion-footer {
 }
 
 .premium-btn {
-  --background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  --background: #FFD700;
   --color: #000;
   font-weight: 700;
   margin-bottom: 10px;

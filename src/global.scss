@@ -39,8 +39,9 @@
 /* Custom Global Styles */
 
 /* Ensure text is readable on dark backgrounds */
-body {
-  --ion-text-color: #333;
+
+ion-content {
+  --background: #f5efe6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -59,5 +60,5 @@ body {
   font-weight: 800;
   font-size: 1.8rem;
   padding-left: 10px;
-  color: var(--text-color-primary);
+  color: var(--text-color-white);
 }

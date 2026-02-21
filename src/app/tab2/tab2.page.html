@@ -1,31 +1,42 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title mode="ios" class="page-title">Mes Clients</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title mode="ios">Mes Clients</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar placeholder="Rechercher un client..." mode="ios" class="custom-searchbar"></ion-searchbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar 
+      placeholder="Rechercher..." 
+      mode="ios" 
+      class="custom-searchbar"
+      [(ngModel)]="searchTerm"
+      [debounce]="300">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="page-content">
-  
+  <div class="header-bg"></div>
+
   <div class="list-container">
-    
-    <ion-list *ngIf="measurements.length > 0" lines="none" class="bg-transparent">
+  
+    <ion-list *ngIf="filteredMeasurements.length > 0" lines="none" class="bg-transparent">
       
-      <ion-item-sliding *ngFor="let m of measurements" class="client-card-sliding">
+      <ion-item-sliding *ngFor="let m of filteredMeasurements" class="client-card-sliding">
         <ion-item button (click)="goToDetails(m)" class="client-card" detail="false">
           <div class="avatar-circle" [class.female]="m.userProfile?.gender === 'female'">
             <ion-icon [name]="m.userProfile?.gender === 'female' ? 'woman-outline' : 'man-outline'"></ion-icon>
           </div>
           
           <ion-label>
-            <h2>{{ m.userProfile?.name || 'Client #' + m.id.substring(0,6) }}</h2>
-            <p class="date">{{ m.date | date:'dd MMM yyyy' }} à {{ m.date | date:'HH:mm' }}</p>
+            <div class="label-header">
+              <h2>{{ m.userProfile?.name || 'Client #' + m.id.substring(0,6) }}</h2>
+              <span class="date">{{ m.date | date:'dd MMM' }}</span>
+            </div>
             <div class="meta-tags">
-              <span class="tag">{{ m.userProfile?.height }}m</span>
-              <span class="tag">{{ m.userProfile?.gender === 'female' ? 'Femme' : 'Homme' }}</span>
-              <span class="tag" *ngIf="m.userProfile?.phone">{{ m.userProfile?.phone }}</span>
+              <span class="tag height">{{ m.userProfile?.height }}m</span>
+              <span class="tag gender" [class.female]="m.userProfile?.gender === 'female'">
+                {{ m.userProfile?.gender === 'female' ? 'Femme' : 'Homme' }}
+              </span>
+              <span class="tag phone" *ngIf="m.userProfile?.phone">{{ m.userProfile?.phone }}</span>
             </div>
           </ion-label>
           
@@ -35,20 +46,21 @@
         </ion-item>
 
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="delete(m.id)">
+          <ion-item-option color="danger" (click)="delete(m.id)" class="delete-btn">
             <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            <span>Supprimer</span>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
 
     </ion-list>
 
-    <div class="empty-state" *ngIf="measurements.length === 0">
-      <div class="empty-icon">
+    <div class="empty-state" *ngIf="filteredMeasurements.length === 0">
+      <div class="empty-icon shadow">
         <ion-icon name="people-outline"></ion-icon>
       </div>
-      <h3>Aucun client</h3>
-      <p>Vos mesures enregistrées apparaîtront ici.</p>
+      <h3>{{ searchTerm ? 'Aucun résultat' : 'Aucun client' }}</h3>
+      <p>{{ searchTerm ? 'Essayez une autre recherche' : 'Vos mesures enregistrées apparaîtront ici.' }}</p>
     </div>
 
   </div>
