@@ -140,7 +140,7 @@ export class MeasureWizardPage implements OnInit {
         this.gender, 
         this.selectedMeasures, 
         true, // include_mesh
-        true  // include_visual_paths
+        false // include_visual_paths (disabled for cleaner UI)
       ).pipe(
         finalize(() => this.isLoading = false)
       ).subscribe({

@@ -31,7 +31,7 @@ export class ApiService {
     gender: Gender, 
     measures: string[], 
     includeMesh: boolean = true,
-    includeVisualPaths: boolean = true
+    includeVisualPaths: boolean = false
   ): Observable<EstimationResponse> {
     const formData = new FormData();
     formData.append('photos', frontPhoto);

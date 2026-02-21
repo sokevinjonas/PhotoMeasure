@@ -71,11 +71,6 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
         : `http://localhost:5000${this.result.mesh_url}`; 
 
       this.threeService.loadMesh(meshUrl);
-
-      // Draw visual paths if present
-      if (this.result?.visual_paths) {
-        this.threeService.drawVisualPaths(this.result.visual_paths);
-      }
     } else {
       console.warn('Cannot init 3D: Missing result or canvas');
     }
