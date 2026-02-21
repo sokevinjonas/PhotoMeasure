@@ -30,6 +30,9 @@ export interface EstimationResponse {
     mode: string;
     validation_errors: any[];
   };
+  visual_paths?: {
+    [key: string]: [number, number, number][];
+  };
 }
 
 export interface FeedbackRequest {

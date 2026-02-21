@@ -9,7 +9,12 @@ import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { finalize } from 'rxjs/operators';
 import { addIcons } from 'ionicons';
-import { manOutline, womanOutline, arrowForward, arrowBack, bodyOutline, accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, ellipseOutline } from 'ionicons/icons';
+import { 
+  manOutline, womanOutline, arrowForward, arrowBack, bodyOutline, 
+  accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, 
+  ellipseOutline, sunnyOutline, expandOutline, shieldCheckmarkOutline,
+  alertCircleOutline
+} from 'ionicons/icons';
 import { camera } from 'ionicons/icons';
 
 @Component({
@@ -56,7 +61,9 @@ export class MeasureWizardPage implements OnInit {
     addIcons({ 
       manOutline, womanOutline, arrowForward, arrowBack, 
       bodyOutline, accessibilityOutline, addCircle,
-      lockClosedOutline, checkmarkCircle, ellipseOutline
+      lockClosedOutline, checkmarkCircle, ellipseOutline,
+      sunnyOutline, expandOutline, shieldCheckmarkOutline,
+      alertCircleOutline
     });
   }
 
@@ -131,8 +138,9 @@ export class MeasureWizardPage implements OnInit {
         sideFile, 
         this.height, 
         this.gender, 
-        this.selectedMeasures, // Pass selection
-        true 
+        this.selectedMeasures, 
+        true, // include_mesh
+        true  // include_visual_paths
       ).pipe(
         finalize(() => this.isLoading = false)
       ).subscribe({
@@ -150,7 +158,16 @@ export class MeasureWizardPage implements OnInit {
         },
         error: (err) => {
           console.error('Estimation error', err);
-          alert('Erreur: ' + (err.error?.error || 'Une erreur est survenue lors de l\'estimation.'));
+          let message = 'Une erreur est survenue lors de l\'estimation.';
+          
+          if (err.status === 400) {
+            // Pose Guard specific handling
+            message = err.error?.error || "Pose non valide, veuillez vous reculer et écarter légèrement les bras (forme en A).";
+          } else if (err.status === 0) {
+            message = "Impossible de contacter le serveur. Vérifiez votre connexion.";
+          }
+          
+          alert('Erreur: ' + message);
         }
       });
     } catch (e) {

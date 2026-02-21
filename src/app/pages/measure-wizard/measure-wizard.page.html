@@ -99,7 +99,42 @@
     <div *ngIf="currentStep === 3" class="fade-in">
       <div class="step-header">
         <h2>Capture 3D</h2>
-        <p>Portez des vêtements près du corps.</p>
+        <p>Suivez attentivement ces consignes pour garantir la précision des mesures.</p>
+      </div>
+
+      <!-- Instructions & Critères -->
+      <div class="instructions-section">
+        <div class="instruction-cards">
+          <div class="instr-card">
+            <ion-icon name="sunny-outline" color="warning"></ion-icon>
+            <label>Éclairage</label>
+            <span>Pièce bien éclairée, sans contre-jour.</span>
+          </div>
+          <div class="instr-card">
+            <ion-icon name="expand-outline" color="primary"></ion-icon>
+            <label>Distance</label>
+            <span>Tout le corps doit être visible (tête aux pieds).</span>
+          </div>
+          <div class="instr-card">
+            <ion-icon name="shield-checkmark-outline" color="success"></ion-icon>
+            <label>Vêtements</label>
+            <span>Moulants pour une précision optimale.</span>
+          </div>
+        </div>
+
+        <div class="pose-guide-box">
+          <div class="guide-header">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <h3>Critères de Pose (Pose Guard)</h3>
+          </div>
+          <ul class="criteria-list">
+            <li><strong>Face :</strong> Jambes écartées, bras en "A" (décollés du corps).</li>
+            <li><strong>Profil :</strong> Bien de côté, bras ne cachant pas la silhouette.</li>
+          </ul>
+          <p class="guard-note">
+            ⚠️ Le système bloquera l'analyse si ces critères ne sont pas respectés. 
+          </p>
+        </div>
       </div>
 
       <div class="photos-container">
@@ -108,8 +143,13 @@
            <img *ngIf="frontPhotoWebPath" [src]="frontPhotoWebPath" class="photo-preview" />
            <div class="photo-placeholder" *ngIf="!frontPhotoWebPath">
              <ion-icon name="body-outline"></ion-icon>
-             <span>Face</span>
+             <span class="view-label">Vue de Face</span>
+             <small>Bras en A, jambes écartées</small>
              <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
+           </div>
+           <div class="change-overlay" *ngIf="frontPhotoWebPath">
+             <ion-icon name="camera"></ion-icon>
+             <span>Changer</span>
            </div>
         </div>
 
@@ -118,8 +158,13 @@
           <img *ngIf="sidePhotoWebPath" [src]="sidePhotoWebPath" class="photo-preview" />
           <div class="photo-placeholder" *ngIf="!sidePhotoWebPath">
             <ion-icon name="accessibility-outline"></ion-icon>
-            <span>Profil</span>
+            <span class="view-label">Vue de Profil</span>
+            <small>Côté strict, silhouette visible</small>
             <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
+          </div>
+          <div class="change-overlay" *ngIf="sidePhotoWebPath">
+            <ion-icon name="camera"></ion-icon>
+            <span>Changer</span>
           </div>
        </div>
       </div>

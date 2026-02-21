@@ -20,21 +20,29 @@ export class ApiService {
    * @param sidePhoto File object for side view
    * @param height User height in meters
    * @param gender User gender
+   * @param measures List of measurement names
    * @param includeMesh Whether to request the 3D mesh
+   * @param includeVisualPaths Whether to request 3D visual paths for measurements
    */
-  estimate(frontPhoto: File, sidePhoto: File, height: number, gender: Gender, measures: string[], includeMesh: boolean = true): Observable<EstimationResponse> {
+  estimate(
+    frontPhoto: File, 
+    sidePhoto: File, 
+    height: number, 
+    gender: Gender, 
+    measures: string[], 
+    includeMesh: boolean = true,
+    includeVisualPaths: boolean = true
+  ): Observable<EstimationResponse> {
     const formData = new FormData();
     formData.append('photos', frontPhoto);
     formData.append('photos', sidePhoto);
     formData.append('height', height.toString());
     formData.append('gender', gender);
     formData.append('include_mesh', includeMesh.toString());
+    formData.append('include_visual_paths', includeVisualPaths.toString());
     
-    // Append each measurement to the form data
-    // Assuming backend handles list via multiple keys or JSON. 
-    // error "measures_table vide" suggests key is "measures_table"
-    // We will append as JSON string to be safe if it's a python/flask list
-    formData.append('measures_table', JSON.stringify(measures));
+    // API expects a comma-separated string for measures_table
+    formData.append('measures_table', measures.join(','));
 
     return this.http.post<EstimationResponse>(`${this.apiUrl}/estimate`, formData);
   }

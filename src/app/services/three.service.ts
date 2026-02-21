@@ -141,4 +141,47 @@ export class ThreeService implements OnDestroy {
       loop();
     });
   }
+
+  /**
+   * Draws visual paths (lines) on the mesh based on API response.
+   * @param visualPaths Object containing point arrays for each measurement
+   */
+  drawVisualPaths(visualPaths: { [key: string]: [number, number, number][] }) {
+    if (!this.scene) return;
+
+    // Remove existing lines if any
+    const existingLines = this.scene.getObjectByName('measurementLines');
+    if (existingLines) {
+      this.scene.remove(existingLines);
+    }
+
+    const linesGroup = new THREE.Group();
+    linesGroup.name = 'measurementLines';
+
+    Object.entries(visualPaths).forEach(([key, points]) => {
+      if (points && points.length > 0) {
+        const vector3Points = points.map(p => new THREE.Vector3(p[0], p[1], p[2]));
+        const geometry = new THREE.BufferGeometry().setFromPoints(vector3Points);
+        const material = new THREE.LineBasicMaterial({ 
+          color: 0xff0000, 
+          linewidth: 2,
+          depthTest: false // Render on top of everything
+        });
+        
+        const line = new THREE.LineLoop(geometry, material);
+        line.renderOrder = 999; // Ensure it renders on top
+        linesGroup.add(line);
+      }
+    });
+
+    // Try to find the mesh to apply same scaling/positioning
+    const model = this.scene.children.find(c => c.type === 'Group' || c.type === 'Object3D');
+    if (model) {
+      linesGroup.scale.copy(model.scale);
+      linesGroup.position.copy(model.position);
+      linesGroup.rotation.copy(model.rotation);
+    }
+
+    this.scene.add(linesGroup);
+  }
 }

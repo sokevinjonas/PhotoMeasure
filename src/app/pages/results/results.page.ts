@@ -71,6 +71,11 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
         : `http://localhost:5000${this.result.mesh_url}`; 
 
       this.threeService.loadMesh(meshUrl);
+
+      // Draw visual paths if present
+      if (this.result?.visual_paths) {
+        this.threeService.drawVisualPaths(this.result.visual_paths);
+      }
     } else {
       console.warn('Cannot init 3D: Missing result or canvas');
     }
@@ -86,11 +91,19 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
 
   initializeList() {
     if (!this.result) return;
-    this.measurementsList = Object.entries(this.result.measurements).map(([key, value]) => ({
-      key,
-      value,
-      original: value
-    }));
+    
+    // The backend returns measurements in mm. 
+    // We convert to cm for the UI and filter out zero values.
+    this.measurementsList = Object.entries(this.result.measurements)
+      .filter(([_, value]) => value > 0)
+      .map(([key, value]) => {
+        const valueInCm = Math.round((value / 10) * 10) / 10; // Round to 1 decimal
+        return {
+          key,
+          value: valueInCm,
+          original: valueInCm
+        };
+      });
   }
 
   hasChanges(): boolean {
@@ -106,7 +119,8 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
 
     this.measurementsList.forEach(m => {
       if (m.value !== m.original) {
-        corrections[m.key] = m.value;
+        // Convert back to mm for backend
+        corrections[m.key] = m.value * 10;
         hasCorrections = true;
       }
     });
@@ -121,27 +135,19 @@ export class ResultsPage implements OnInit, AfterViewInit, OnDestroy {
       }
     };
 
-    // Even if no corrections, maybe we want to validate? 
-    // The prompt implied only sending corrections.
-    // If no corrections, we can still send "validation" by sending empty corrections ??
-    // Or just "Perfect"?
-    // For now let's send what we have.
-
     // Save to local storage
     const record: MeasurementRecord = {
       id: this.result.prediction_id,
       date: new Date().toISOString(),
-      measurements: corrections, // Or mix of original + corrections? Better to save final state.
-      // Wait, corrections only has changed values. We need ALL values.
-      // Let's reconstruct full object
+      measurements: {}, // Will be filled below
       mesh_url: this.result.mesh_url,
       userProfile: this.userProfile,
       synced: true 
     };
 
-    // Reconstruct full measurements object from list
+    // Reconstruct full measurements object from list (stored in mm)
     const finalMeasurements: Measurements = {};
-    this.measurementsList.forEach(m => finalMeasurements[m.key] = m.value);
+    this.measurementsList.forEach(m => finalMeasurements[m.key] = m.value * 10);
     record.measurements = finalMeasurements;
 
     this.storage.saveMeasurement(record);

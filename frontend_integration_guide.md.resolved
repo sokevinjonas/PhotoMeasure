@@ -1,0 +1,97 @@
+# Guide d'Intégration Frontend : Mesures Corporelles SMPL
+
+Ce guide est destiné à l'équipe Mobile/Web pour l'intégration du microservice d'estimation de mensurations.
+
+## 📡 Spécifications de l'API
+
+- **Endpoint** : `POST /estimate`
+- **Content-Type** : `multipart/form-data`
+- **Auth** : (À définir selon votre gateway, ex: Bearer Token)
+
+### Paramètres de la requête
+| Clé | Type | Description |
+| :--- | :--- | :--- |
+| `photos` | File[] | **1 ou 2 fichiers** (Frontal + Profil recommandé pour max précision). |
+| `gender` | String | `"male"` ou `"female"`. |
+| [height](file:///home/jonas-dev/Bureau/SassApp/smpl-microservice/smpl_engine.py#291-315) | Number | Taille en **cm** (ex: `175`). |
+| `measures_table` | String | Liste séparée par virgules : `"tour_poitrine,taille,entrejambe"`. |
+| `include_mesh` | Boolean | `"true"` pour recevoir une URL vers le modèle 3D .obj. |
+| `include_visual_paths` | Boolean | `"true"` pour recevoir les coordonnées 3D (XYZ) du tracé des mesures. |
+
+---
+
+## 🛡️ Gestion du "Pose Guard" (UX)
+
+Le système intègre un garde-fou strict. Vous **devez** gérer les codes erreurs **400** pour guider l'utilisateur.
+
+### Cas d'erreur types
+- **Visibilité insuffisante** : L'utilisateur est trop près ou une partie du corps est coupée.
+- **Pose non valide** : L'IA n'arrive pas à aligner le squelette (bras collés au corps, vêtements trop amples).
+- **Message à afficher** : `"Pose non valide, veuillez vous reculer et écarter légèrement les bras (forme en A)."`
+
+---
+
+## 🎨 Preview 3D : Utilité & Personnalisation
+
+### 1. Est-ce nécessaire ?
+**Commercialement : OUI.** 
+Même si l'utilisateur veut juste ses chiffres, voir son "avatar 3D" :
+- **Renforce la confiance** : "L'IA a vraiment compris ma morphologie".
+- **Garantit la transparence** : On voit où les mesures ont été prises.
+- **Effet "Wow"** : Positionne l'app comme une solution de pointe.
+
+### 2. Comment le personnaliser (Tracer les lignes) ?
+Pour "tracer" les lignes des mesures sur le corps (ex: un cercle rouge pour le tour de poitrine) :
+
+**Option A (Client-side avec Three.js + `visual_paths`)** :
+1. Activez `include_visual_paths: true` dans votre requête.
+2. L'API renvoie un objet `visual_paths` contenant pour chaque mesure une liste de points `[x, y, z]`.
+3. Dans Three.js, créez une `BufferGeometry` à partir de ces points et utilisez `LineLoop` ou `Line` pour dessiner le tracé exact sur l'avatar.
+
+```typescript
+// Exemple de tracé avec Three.js
+const points = response.visual_paths.tour_poitrine.map(p => new THREE.Vector3(p[0], p[1], p[2]));
+const geometry = new THREE.BufferGeometry().setFromPoints(points);
+const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+const line = new THREE.LineLoop(geometry, material);
+scene.add(line);
+```
+
+**Option B (Texture Mapping)** :
+Générer une texture dynamique sur le serveur (heatmap ou lignes) et l'appliquer au mesh.
+
+---
+
+## 📸 Guide de Capture (Best Practices pour le Front)
+
+Pour maximiser le taux de succès (éviter les rejets du Pose Guard) :
+
+1. **Overlay Silhouette** : Affichez une silhouette semi-transparente sur l'appareil photo pour aider l'utilisateur à se positionner (bras en A, jambes écartées).
+2. **Détection de flou** : Vérifiez que l'image n'est pas floue avant l'envoi.
+3. **Format** : Envoyez du **JPEG** compressé (qualité 80) pour réduire la latence.
+
+---
+
+## 🛠️ Exemple de code (Ionic / TypeScript)
+
+```typescript
+async captureAndEstimate() {
+  const formData = new FormData();
+  formData.append('photos', frontBlob, 'front.jpg');
+  formData.append('photos', profileBlob, 'profile.jpg');
+  formData.append('gender', 'female');
+  formData.append('height', '168');
+  formData.append('measures_table', 'tour_poitrine,taille,hanche,entrejambe');
+  formData.append('include_mesh', 'true');
+
+  try {
+    const res = await this.http.post('YOUR_API_URL/estimate', formData).toPromise();
+    this.results = res.measurements;
+    this.avatarUrl = res.mesh_url;
+  } catch (err) {
+    if (err.status === 400) {
+      this.alertService.show(err.error.error); // "Pose non valide..."
+    }
+  }
+}
+```
