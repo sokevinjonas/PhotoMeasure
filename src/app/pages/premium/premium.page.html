@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="transparent" style="--background: transparent; position: absolute; top: 0; width: 100%;">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab3" color="light"></ion-back-button>
     </ion-buttons>
@@ -7,7 +7,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
   <div class="hero-section">
     <div class="glow-effect"></div>
     <div class="crown-icon">
@@ -19,7 +18,10 @@
 
   <div class="features-list">
     <div class="feature-item">
-      <div class="icon-box" style="background: rgba(255, 99, 71, 0.2); color: #ff6347;">
+      <div
+        class="icon-box"
+        style="background: rgba(255, 99, 71, 0.2); color: #ff6347"
+      >
         <ion-icon name="ban-outline"></ion-icon>
       </div>
       <div class="text">
@@ -29,7 +31,10 @@
     </div>
 
     <div class="feature-item">
-      <div class="icon-box" style="background: rgba(60, 179, 113, 0.2); color: #3cb371;">
+      <div
+        class="icon-box"
+        style="background: rgba(60, 179, 113, 0.2); color: #3cb371"
+      >
         <ion-icon name="cloud-download-outline"></ion-icon>
       </div>
       <div class="text">
@@ -39,7 +44,10 @@
     </div>
 
     <div class="feature-item">
-      <div class="icon-box" style="background: rgba(100, 149, 237, 0.2); color: #6495ed;">
+      <div
+        class="icon-box"
+        style="background: rgba(100, 149, 237, 0.2); color: #6495ed"
+      >
         <ion-icon name="heart-outline"></ion-icon>
       </div>
       <div class="text">
@@ -47,28 +55,40 @@
         <p>Aidez-nous à améliorer l'application.</p>
       </div>
     </div>
-  </div>
 
-  <div class="pricing-card">
-    <div class="price-tag">
-      <span class="currency">$</span>
-      <span class="amount">5</span>
-      <span class="period">/ vie</span>
+    <div class="pricing-card">
+      <div class="price-tag">
+        <span class="currency">$</span>
+        <span class="amount">5</span>
+        <span class="period">/ vie</span>
+      </div>
+      <p class="price-equivalent">Environ 3000 FCFA / 4.50 €</p>
+      <p class="payment-method">Paiement unique sécurisé</p>
     </div>
-    <p class="price-equivalent">Environ 3000 FCFA / 4.50 €</p>
-    <p class="payment-method">Paiement unique sécurisé</p>
   </div>
-
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <ion-toolbar color="transparent">
     <div class="footer-actions">
-      <ion-button expand="block" shape="round" size="large" class="premium-btn" (click)="buyPremium()" [disabled]="isLoading">
+      <ion-button
+        expand="block"
+        shape="round"
+        size="large"
+        class="premium-btn"
+        (click)="buyPremium()"
+        [disabled]="isLoading"
+      >
         <span *ngIf="!isLoading">Débloquer Premium</span>
         <ion-spinner *ngIf="isLoading"></ion-spinner>
       </ion-button>
-      <ion-button fill="clear" color="medium" size="small" class="restore-btn" (click)="restorePurchases()">
+      <ion-button
+        fill="clear"
+        color="medium"
+        size="small"
+        class="restore-btn"
+        (click)="restorePurchases()"
+      >
         Restaurer les achats
       </ion-button>
     </div>

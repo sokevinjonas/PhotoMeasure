@@ -1,11 +1,10 @@
-
 ion-content {
-  --background: var(--premium-gradient-dark); 
+  --background: var(--premium-gradient-dark);
 }
 
 .hero-section {
   position: relative;
-  height: 40vh;
+  height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,7 +67,7 @@ ion-content {
   align-items: flex-start;
   margin-bottom: 25px;
   padding: 10px;
-  
+
   .icon-box {
     width: 50px;
     height: 50px;
@@ -107,7 +106,7 @@ ion-content {
     align-items: flex-start;
     justify-content: center;
     color: var(--text-color-primary);
-    
+
     .currency {
       font-size: 1.5rem;
       font-weight: 600;
@@ -139,9 +138,9 @@ ion-content {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    
+
     &::before {
-      content: '🔒';
+      content: "🔒";
     }
   }
 }
@@ -165,14 +164,20 @@ ion-footer {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .hero-section {
   position: relative;
-  height: 40vh;
+  height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -235,7 +240,7 @@ ion-footer {
   align-items: flex-start;
   margin-bottom: 25px;
   padding: 10px;
-  
+
   .icon-box {
     width: 50px;
     height: 50px;
@@ -274,7 +279,7 @@ ion-footer {
     align-items: flex-start;
     justify-content: center;
     color: #0f172a;
-    
+
     .currency {
       font-size: 1.5rem;
       font-weight: 600;
@@ -306,9 +311,9 @@ ion-footer {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    
+
     &::before {
-      content: '🔒';
+      content: "🔒";
     }
   }
 }
@@ -319,7 +324,7 @@ ion-footer {
 }
 
 .premium-btn {
-  --background: #FFD700;
+  --background: #ffd700;
   --color: #000;
   font-weight: 700;
   margin-bottom: 10px;
@@ -332,7 +337,13 @@ ion-footer {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
