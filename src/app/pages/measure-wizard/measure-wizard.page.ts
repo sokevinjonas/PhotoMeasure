@@ -9,11 +9,21 @@ import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { finalize } from 'rxjs/operators';
 import { addIcons } from 'ionicons';
-import { 
-  manOutline, womanOutline, arrowForward, arrowBack, bodyOutline, 
-  accessibilityOutline, addCircle, lockClosedOutline, checkmarkCircle, 
-  ellipseOutline, sunnyOutline, expandOutline, shieldCheckmarkOutline,
-  alertCircleOutline
+import {
+  manOutline,
+  womanOutline,
+  arrowForward,
+  arrowBack,
+  bodyOutline,
+  accessibilityOutline,
+  addCircle,
+  lockClosedOutline,
+  checkmarkCircle,
+  ellipseOutline,
+  sunnyOutline,
+  expandOutline,
+  shieldCheckmarkOutline,
+  alertCircleOutline,
 } from 'ionicons/icons';
 import { camera } from 'ionicons/icons';
 
@@ -22,10 +32,9 @@ import { camera } from 'ionicons/icons';
   templateUrl: './measure-wizard.page.html',
   styleUrls: ['./measure-wizard.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class MeasureWizardPage implements OnInit {
-
   currentStep = 1;
 
   // Step 1: Client Info
@@ -33,15 +42,32 @@ export class MeasureWizardPage implements OnInit {
   phone: string = '';
   gender: 'male' | 'female' | 'neutral' = 'male';
   height: number | undefined;
-  
+  weight: string | undefined;
+
   // Step 2: Measurement Selection
   readonly availableMeasures = [
-    "Dos", "Epaule", "Poitrine", "Long Manche", "Tour de Manche", 
-    "Long Taille", "Tour Taille", "Pinces", "Long Camisole", "Long Robe", 
-    "Long Chemise", "Ceinture", "Bassin", "Cuisse", "Genou", 
-    "Long jupe", "Long Pantalon", "Bas", "Poignet", "Tour Emanchure"
+    'Dos',
+    'Epaule',
+    'Poitrine',
+    'Long Manche',
+    'Tour de Manche',
+    'Long Taille',
+    'Tour Taille',
+    'Pinces',
+    'Long Camisole',
+    'Long Robe',
+    'Long Chemise',
+    'Ceinture',
+    'Bassin',
+    'Cuisse',
+    'Genou',
+    'Long jupe',
+    'Long Pantalon',
+    'Bas',
+    'Poignet',
+    'Tour Emanchure',
   ];
-  
+
   selectedMeasures: string[] = [...this.availableMeasures]; // Default select all
 
   // Step 3: Photos
@@ -56,14 +82,23 @@ export class MeasureWizardPage implements OnInit {
     private photoService: PhotoService,
     private apiService: ApiService,
     private storage: StorageService,
-    private router: Router
-  ) { 
-    addIcons({ 
-      manOutline, womanOutline, arrowForward, arrowBack, 
-      bodyOutline, accessibilityOutline, addCircle,
-      lockClosedOutline, checkmarkCircle, ellipseOutline,
-      sunnyOutline, expandOutline, shieldCheckmarkOutline,
-      alertCircleOutline
+    private router: Router,
+  ) {
+    addIcons({
+      manOutline,
+      womanOutline,
+      arrowForward,
+      arrowBack,
+      bodyOutline,
+      accessibilityOutline,
+      addCircle,
+      lockClosedOutline,
+      checkmarkCircle,
+      ellipseOutline,
+      sunnyOutline,
+      expandOutline,
+      shieldCheckmarkOutline,
+      alertCircleOutline,
     });
   }
 
@@ -95,7 +130,9 @@ export class MeasureWizardPage implements OnInit {
 
   toggleMeasure(measure: string) {
     if (this.selectedMeasures.includes(measure)) {
-      this.selectedMeasures = this.selectedMeasures.filter(m => m !== measure);
+      this.selectedMeasures = this.selectedMeasures.filter(
+        (m) => m !== measure,
+      );
     } else {
       this.selectedMeasures.push(measure);
     }
@@ -125,56 +162,63 @@ export class MeasureWizardPage implements OnInit {
   }
 
   async startEstimation() {
-    if (!this.frontPhoto || !this.sidePhoto || !this.height || !this.name) return;
+    if (!this.frontPhoto || !this.sidePhoto || !this.height || !this.name)
+      return;
 
     this.isLoading = true;
-    
+
     try {
-      const frontFile = await this.photoService.getFileFromPhoto(this.frontPhoto);
+      const frontFile = await this.photoService.getFileFromPhoto(
+        this.frontPhoto,
+      );
       const sideFile = await this.photoService.getFileFromPhoto(this.sidePhoto);
 
-      this.apiService.estimate(
-        frontFile, 
-        sideFile, 
-        this.height, 
-        this.gender, 
-        this.selectedMeasures, 
-        true, // include_mesh
-        false // include_visual_paths (disabled for cleaner UI)
-      ).pipe(
-        finalize(() => this.isLoading = false)
-      ).subscribe({
-        next: (response) => {
-          const resultData = {
-            ...response,
-            userProfile: { 
-              name: this.name,
-              phone: this.phone,
-              gender: this.gender,
-              height: this.height
+      this.apiService
+        .estimate(
+          frontFile,
+          sideFile,
+          this.height,
+          this.weight,
+          this.gender,
+          this.selectedMeasures,
+          true, // include_mesh
+          false, // include_visual_paths (disabled for cleaner UI)
+        )
+        .pipe(finalize(() => (this.isLoading = false)))
+        .subscribe({
+          next: (response) => {
+            const resultData = {
+              ...response,
+              userProfile: {
+                name: this.name,
+                phone: this.phone,
+                gender: this.gender,
+                height: this.height,
+              },
+            };
+            this.router.navigate(['/results'], { state: { data: resultData } });
+          },
+          error: (err) => {
+            console.error('Estimation error', err);
+            let message = "Une erreur est survenue lors de l'estimation.";
+
+            if (err.status === 400) {
+              // Pose Guard specific handling
+              message =
+                err.error?.error ||
+                'Pose non valide, veuillez vous reculer et écarter légèrement les bras (forme en A).';
+            } else if (err.status === 0) {
+              message =
+                'Impossible de contacter le serveur. Vérifiez votre connexion.';
             }
-          };
-          this.router.navigate(['/results'], { state: { data: resultData } });
-        },
-        error: (err) => {
-          console.error('Estimation error', err);
-          let message = 'Une erreur est survenue lors de l\'estimation.';
-          
-          if (err.status === 400) {
-            // Pose Guard specific handling
-            message = err.error?.error || "Pose non valide, veuillez vous reculer et écarter légèrement les bras (forme en A).";
-          } else if (err.status === 0) {
-            message = "Impossible de contacter le serveur. Vérifiez votre connexion.";
-          }
-          
-          alert('Erreur: ' + message);
-        }
-      });
+
+            alert('Erreur: ' + message);
+          },
+        });
     } catch (e) {
       this.isLoading = false;
       console.error(e);
       alert('Erreur lors de la préparation des fichiers.');
     }
   }
-
 }

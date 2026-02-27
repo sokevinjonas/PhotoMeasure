@@ -1,20 +1,21 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="transparent">
-    <ion-buttons slot="start">
-      <ion-button (click)="previousStep()" color="dark">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" color="white">
+      <ion-button (click)="previousStep()">
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Nouvelle Mesure</ion-title>
     <!-- Progress: 1/3 ~ 0.33, 2/3 ~ 0.66, 3/3 ~ 1.0 -->
-    <ion-progress-bar [value]="currentStep / 3" color="primary"></ion-progress-bar>
+    <ion-progress-bar
+      [value]="currentStep / 3"
+      color="primary"
+    ></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="wizard-content">
-  
   <div class="wizard-container">
-    
     <!-- Step 1: Details (No Age/Weight) -->
     <div *ngIf="currentStep === 1" class="fade-in">
       <div class="step-header">
@@ -24,11 +25,19 @@
 
       <!-- Gender Selector -->
       <div class="gender-selector">
-        <div class="gender-card" [class.selected]="gender === 'male'" (click)="gender = 'male'">
+        <div
+          class="gender-card"
+          [class.selected]="gender === 'male'"
+          (click)="gender = 'male'"
+        >
           <ion-icon name="man-outline"></ion-icon>
           <span>Homme</span>
         </div>
-        <div class="gender-card" [class.selected]="gender === 'female'" (click)="gender = 'female'">
+        <div
+          class="gender-card"
+          [class.selected]="gender === 'female'"
+          (click)="gender = 'female'"
+        >
           <ion-icon name="woman-outline"></ion-icon>
           <span>Femme</span>
         </div>
@@ -38,22 +47,61 @@
       <div class="inputs-grid">
         <div class="input-group">
           <label>Nom du client <span class="required">*</span></label>
-          <ion-input type="text" placeholder="Ex: Jean Dupont" [(ngModel)]="name" class="custom-input"></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Ex: Jean Dupont"
+            [(ngModel)]="name"
+            class="custom-input"
+          ></ion-input>
         </div>
 
         <div class="input-group">
           <label>Téléphone <span class="optional">(optionnel)</span></label>
-          <ion-input type="tel" placeholder="Ex: 01 23 45 67 89" [(ngModel)]="phone" class="custom-input"></ion-input>
+          <ion-input
+            type="tel"
+            placeholder="Ex: 01 23 45 67 89"
+            [(ngModel)]="phone"
+            class="custom-input"
+          ></ion-input>
         </div>
 
         <div class="input-group">
           <label>Taille (m) <span class="required">*</span></label>
-          <ion-input type="number" step="0.01" placeholder="1.75" [(ngModel)]="height" class="custom-input"></ion-input>
+          <ion-input
+            type="number"
+            step="0.01"
+            placeholder="Ex: 1.75"
+            [(ngModel)]="height"
+            class="custom-input"
+          ></ion-input>
+        </div>
+
+        <div class="input-group">
+          <label
+            >Poids estimé (kg)
+            <span class="optional">(optionnel mais recommandé)</span></label
+          >
+          <ion-input
+            type="text"
+            placeholder="Ex: 75 ou 70-75"
+            [(ngModel)]="weight"
+            class="custom-input"
+          ></ion-input>
+          <small style="color: gray; display: block; margin-top: 4px"
+            >Un poids exact ou un intervalle améliore drastiquement la précision
+            3D.</small
+          >
         </div>
       </div>
 
       <div class="footer-action">
-        <ion-button expand="block" shape="round" size="large" (click)="nextStep()" [disabled]="!height">
+        <ion-button
+          expand="block"
+          shape="round"
+          size="large"
+          (click)="nextStep()"
+          [disabled]="!height"
+        >
           Suivant
           <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
@@ -70,28 +118,42 @@
       <div class="measures-selection">
         <ion-item lines="none" class="select-all-item">
           <ion-label>Tout sélectionner</ion-label>
-          <ion-checkbox slot="end" [checked]="selectedMeasures.length === availableMeasures.length" (ionChange)="toggleAll($event)"></ion-checkbox>
+          <ion-checkbox
+            slot="end"
+            [checked]="selectedMeasures.length === availableMeasures.length"
+            (ionChange)="toggleAll($event)"
+          ></ion-checkbox>
         </ion-item>
 
         <div class="measures-grid">
-          <div 
-            class="measure-chip" 
-            *ngFor="let m of availableMeasures" 
+          <div
+            class="measure-chip"
+            *ngFor="let m of availableMeasures"
             [class.selected]="selectedMeasures.includes(m)"
             (click)="toggleMeasure(m)"
           >
-            <ion-icon [name]="selectedMeasures.includes(m) ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
+            <ion-icon
+              [name]="selectedMeasures.includes(m) ? 'checkmark-circle' : 'ellipse-outline'"
+            ></ion-icon>
             <span>{{ m }}</span>
           </div>
         </div>
       </div>
 
       <div class="footer-action">
-        <ion-button expand="block" shape="round" size="large" (click)="nextStep()" [disabled]="selectedMeasures.length === 0">
+        <ion-button
+          expand="block"
+          shape="round"
+          size="large"
+          (click)="nextStep()"
+          [disabled]="selectedMeasures.length === 0"
+        >
           Suivant
           <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
-        <p class="count-info">{{ selectedMeasures.length }} mesures sélectionnées</p>
+        <p class="count-info">
+          {{ selectedMeasures.length }} mesures sélectionnées
+        </p>
       </div>
     </div>
 
@@ -99,7 +161,10 @@
     <div *ngIf="currentStep === 3" class="fade-in">
       <div class="step-header">
         <h2>Capture 3D</h2>
-        <p>Suivez attentivement ces consignes pour garantir la précision des mesures.</p>
+        <p>
+          Suivez attentivement ces consignes pour garantir la précision des
+          mesures.
+        </p>
       </div>
 
       <!-- Instructions & Critères -->
@@ -116,7 +181,10 @@
             <span>Tout le corps doit être visible (tête aux pieds).</span>
           </div>
           <div class="instr-card">
-            <ion-icon name="shield-checkmark-outline" color="success"></ion-icon>
+            <ion-icon
+              name="shield-checkmark-outline"
+              color="success"
+            ></ion-icon>
             <label>Vêtements</label>
             <span>Moulants pour une précision optimale.</span>
           </div>
@@ -128,49 +196,88 @@
             <h3>Critères de Pose (Pose Guard)</h3>
           </div>
           <ul class="criteria-list">
-            <li><strong>Face :</strong> Jambes écartées, bras en "A" (décollés du corps).</li>
-            <li><strong>Profil :</strong> Bien de côté, bras ne cachant pas la silhouette.</li>
+            <li>
+              <strong>Face :</strong> Jambes écartées, bras en "A" (décollés du
+              corps).
+            </li>
+            <li>
+              <strong>Profil :</strong> Bien de côté, bras ne cachant pas la
+              silhouette.
+            </li>
           </ul>
           <p class="guard-note">
-            ⚠️ Le système bloquera l'analyse si ces critères ne sont pas respectés. 
+            ⚠️ Le système bloquera l'analyse si ces critères ne sont pas
+            respectés.
           </p>
         </div>
       </div>
 
       <div class="photos-container">
         <!-- Front Photo -->
-        <div class="photo-card" (click)="takePhoto('front')" [class.has-photo]="!!frontPhotoWebPath">
-           <img *ngIf="frontPhotoWebPath" [src]="frontPhotoWebPath" class="photo-preview" />
-           <div class="photo-placeholder" *ngIf="!frontPhotoWebPath">
-             <ion-icon name="body-outline"></ion-icon>
-             <span class="view-label">Vue de Face</span>
-             <small>Bras en A, jambes écartées</small>
-             <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
-           </div>
-           <div class="change-overlay" *ngIf="frontPhotoWebPath">
-             <ion-icon name="camera"></ion-icon>
-             <span>Changer</span>
-           </div>
+        <div
+          class="photo-card"
+          (click)="takePhoto('front')"
+          [class.has-photo]="!!frontPhotoWebPath"
+        >
+          <img
+            *ngIf="frontPhotoWebPath"
+            [src]="frontPhotoWebPath"
+            class="photo-preview"
+          />
+          <div class="photo-placeholder" *ngIf="!frontPhotoWebPath">
+            <ion-icon name="body-outline"></ion-icon>
+            <span class="view-label">Vue de Face</span>
+            <small>Bras en A, jambes écartées</small>
+            <ion-icon
+              name="add-circle"
+              color="primary"
+              class="add-icon"
+            ></ion-icon>
+          </div>
+          <div class="change-overlay" *ngIf="frontPhotoWebPath">
+            <ion-icon name="camera"></ion-icon>
+            <span>Changer</span>
+          </div>
         </div>
 
         <!-- Side Photo -->
-        <div class="photo-card" (click)="takePhoto('side')" [class.has-photo]="!!sidePhotoWebPath">
-          <img *ngIf="sidePhotoWebPath" [src]="sidePhotoWebPath" class="photo-preview" />
+        <div
+          class="photo-card"
+          (click)="takePhoto('side')"
+          [class.has-photo]="!!sidePhotoWebPath"
+        >
+          <img
+            *ngIf="sidePhotoWebPath"
+            [src]="sidePhotoWebPath"
+            class="photo-preview"
+          />
           <div class="photo-placeholder" *ngIf="!sidePhotoWebPath">
             <ion-icon name="accessibility-outline"></ion-icon>
             <span class="view-label">Vue de Profil</span>
             <small>Côté strict, silhouette visible</small>
-            <ion-icon name="add-circle" color="primary" class="add-icon"></ion-icon>
+            <ion-icon
+              name="add-circle"
+              color="primary"
+              class="add-icon"
+            ></ion-icon>
           </div>
           <div class="change-overlay" *ngIf="sidePhotoWebPath">
             <ion-icon name="camera"></ion-icon>
             <span>Changer</span>
           </div>
-       </div>
+        </div>
       </div>
 
       <div class="footer-action">
-        <ion-button expand="block" shape="round" size="large" (click)="startEstimation()" [disabled]="!frontPhoto || !sidePhoto || isLoading" class="analyze-btn" [class.is-loading]="isLoading">
+        <ion-button
+          expand="block"
+          shape="round"
+          size="large"
+          (click)="startEstimation()"
+          [disabled]="!frontPhoto || !sidePhoto || isLoading"
+          class="analyze-btn"
+          [class.is-loading]="isLoading"
+        >
           <span *ngIf="!isLoading">Lancer l'analyse</span>
           <div class="custom-spinner-wrapper" *ngIf="isLoading">
             <ion-spinner name="crescent" color="light"></ion-spinner>
@@ -183,7 +290,5 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </ion-content>

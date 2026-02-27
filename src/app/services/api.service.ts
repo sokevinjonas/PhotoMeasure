@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EstimationResponse, FeedbackRequest, Gender } from '../models/photo-measure.model';
+import {
+  EstimationResponse,
+  FeedbackRequest,
+  Gender,
+} from '../models/photo-measure.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  private apiUrl = environment.apiUrl;
 
-  // TODO: Move this to environment.ts later
-  private apiUrl = 'http://localhost:5000';
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Sends photos and user details to get body measurements.
@@ -25,26 +27,31 @@ export class ApiService {
    * @param includeVisualPaths Whether to request 3D visual paths for measurements
    */
   estimate(
-    frontPhoto: File, 
-    sidePhoto: File, 
-    height: number, 
-    gender: Gender, 
-    measures: string[], 
+    frontPhoto: File,
+    sidePhoto: File,
+    height: number,
+    weight: string | undefined,
+    gender: Gender,
+    measures: string[],
     includeMesh: boolean = true,
-    includeVisualPaths: boolean = false
+    includeVisualPaths: boolean = false,
   ): Observable<EstimationResponse> {
     const formData = new FormData();
     formData.append('photos', frontPhoto);
     formData.append('photos', sidePhoto);
     formData.append('height', height.toString());
+    if (weight) formData.append('weight', weight.toString());
     formData.append('gender', gender);
     formData.append('include_mesh', includeMesh.toString());
     formData.append('include_visual_paths', includeVisualPaths.toString());
-    
+
     // API expects a comma-separated string for measures_table
     formData.append('measures_table', measures.join(','));
 
-    return this.http.post<EstimationResponse>(`${this.apiUrl}/estimate`, formData);
+    return this.http.post<EstimationResponse>(
+      `${this.apiUrl}/estimate`,
+      formData,
+    );
   }
 
   /**
@@ -53,7 +60,7 @@ export class ApiService {
    */
   sendFeedback(feedback: FeedbackRequest): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
     return this.http.post(`${this.apiUrl}/feedback`, feedback, { headers });
   }
